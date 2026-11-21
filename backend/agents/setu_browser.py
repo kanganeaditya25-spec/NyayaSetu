@@ -19,9 +19,11 @@ from pydantic import BaseModel, Field
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 load_dotenv(PROJECT_ROOT / ".env")
 
-# Ensure Playwright browser binaries path is configured
-if "PLAYWRIGHT_BROWSERS_PATH" not in os.environ:
+# Ensure Playwright browser binaries path is configured (only on Windows; on Linux/Docker use system path)
+if "PLAYWRIGHT_BROWSERS_PATH" not in os.environ and os.name == "nt":
     os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.getenv("PLAYWRIGHT_BROWSERS_PATH", r"D:\pw-browsers")
+
+HEADLESS = os.getenv("HEADLESS", "false").lower() == "true"
 
 from playwright.sync_api import Page, sync_playwright
 
@@ -116,7 +118,7 @@ def run_copilot_fill(
 
     try:
         browser = playwright_instance.chromium.launch(
-            headless=False,
+            headless=HEADLESS,
             slow_mo=150,
         )
         context = browser.new_context(

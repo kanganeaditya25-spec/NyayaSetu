@@ -11,6 +11,7 @@ import json
 import os
 import secrets
 import shutil
+import tempfile
 import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -30,7 +31,12 @@ from backend.agents import vaani_asr
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MOCK_PORTAL_DIR = PROJECT_ROOT / "mock_portal"
-TMP_DIR = Path(r"D:\tmp")
+
+# Cross-platform temp directory: use D:/tmp on Windows if available, otherwise system temp
+if os.name == "nt" and Path("D:/").exists():
+    TMP_DIR = Path("D:/tmp")
+else:
+    TMP_DIR = Path(tempfile.gettempdir()) / "nyayasetu_tmp"
 TMP_DIR.mkdir(parents=True, exist_ok=True)
 
 # In-memory session store (token -> user_id)
@@ -95,7 +101,10 @@ class LoginRequest(BaseModel):
 
 class ExecuteBrowserRequest(BaseModel):
     case_id: Any = Field(..., description="Case ID to execute in browser")
-    portal_url: str = Field(default="http://127.0.0.1:8000/mock-portal", description="Target portal URL")
+    portal_url: str = Field(
+        default_factory=lambda: f"http://127.0.0.1:{os.getenv('PORT', '8000')}/mock-portal",
+        description="Target portal URL",
+    )
     auto_test_captcha: Optional[str] = Field(default=None, description="CAPTCHA string for automated test mode")
     keep_open: bool = Field(default=True, description="Whether to keep browser open after submission")
 
@@ -464,8 +473,10 @@ async def execute_browser_copilot(
         except Exception:
             extracted_meta = {}
 
+    target_portal_url = req.portal_url or f"http://127.0.0.1:{os.getenv('PORT', '8000')}/mock-portal"
+
     payload = setu_browser.PortalFillPayload(
-        portal_url=req.portal_url,
+        portal_url=target_portal_url,
         ministry=ministry,
         authority_name=authority_name,
         applicant_name=case_data.get("citizen_name", "Citizen"),
