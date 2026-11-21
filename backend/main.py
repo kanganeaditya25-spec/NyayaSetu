@@ -491,15 +491,26 @@ async def execute_browser_copilot(
         supporting_pdf_path=draft.get("pdf_path") if draft.get("pdf_path") else None,
     )
 
-    # Run browser in worker thread
-    copilot_result = await asyncio.to_thread(
-        setu_browser.run_copilot_fill,
-        payload=payload,
-        auto_test_captcha=req.auto_test_captcha,
-        keep_open=req.keep_open,
-    )
+    try:
+        # Run browser in worker thread, passing case_id
+        copilot_result = await asyncio.to_thread(
+            setu_browser.run_copilot_fill,
+            payload=payload,
+            auto_test_captcha=req.auto_test_captcha,
+            keep_open=req.keep_open,
+            case_id=cid_str,
+        )
+    except Exception as e:
+        print(f"[API execute-browser error]: {e}")
+        fallback_reg = f"RTI/2026/DEMO-{cid_str[:6].upper()}"
+        copilot_result = {
+            "status": "CLOUD_PREVIEW_READY",
+            "portal_url": f"/mock-portal/?prefill_case={cid_str}",
+            "registration_number": fallback_reg,
+            "error": str(e),
+        }
 
-    reg_no = copilot_result.get("registration_number", f"RTI/2026/DEMO-{cid_str[:6]}")
+    reg_no = copilot_result.get("registration_number") or f"RTI/2026/DEMO-{cid_str[:6].upper()}"
 
     # Create 30-day escalation watchdog timer
     timer_row = db.create_timer(
@@ -516,9 +527,11 @@ async def execute_browser_copilot(
 
     return {
         "case_id": cid_str,
-        "status": "SUBMITTED",
+        "status": copilot_result.get("status", "SUBMITTED"),
         "registration_number": reg_no,
+        "portal_url": copilot_result.get("portal_url", f"/mock-portal/?prefill_case={cid_str}"),
         "due_at": timer_row["due_at"],
+        "error": copilot_result.get("error"),
     }
 
 

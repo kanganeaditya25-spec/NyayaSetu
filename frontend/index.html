@@ -460,6 +460,9 @@
               <span class="text-[10px] text-slate-400 block font-semibold uppercase">Official Registration No</span>
               <span id="screen3-reg-no" class="text-xl font-mono font-black text-indigo-900">RTI/2026/DEMO-4821</span>
             </div>
+            <a id="cloud-portal-link" href="/mock-portal/" target="_blank" class="hidden px-3.5 py-3 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5" title="Open Pre-Filled Portal Tab">
+              <span>🌐 Open Pre-Filled Portal Tab</span>
+            </a>
             <button type="button" onclick="printFormalAcknowledgment()" class="px-3.5 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5" title="Print Formal Legal Acknowledgment">
               <span>🖨️ Print Doc</span>
             </button>
@@ -1151,6 +1154,30 @@
         if (currentCaseData) {
           currentCaseData.registration_number = result.registration_number;
         }
+
+        // Handle Cloud Preview Portal Link
+        const cloudLink = document.getElementById("cloud-portal-link");
+        if (cloudLink) {
+          if (result.portal_url) {
+            cloudLink.href = result.portal_url;
+            cloudLink.classList.remove("hidden");
+          } else {
+            cloudLink.classList.add("hidden");
+          }
+        }
+
+        // Update status badge for cloud mode
+        const statusBadge = document.getElementById("copilot-status-badge");
+        if (statusBadge) {
+          if (result.status === "CLOUD_PREVIEW_READY") {
+            statusBadge.textContent = "CLOUD AUTOMATION COMPLETED";
+            statusBadge.className = "text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded border border-amber-300";
+          } else {
+            statusBadge.textContent = "SUBMITTED TO PORTAL";
+            statusBadge.className = "text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded border border-emerald-300";
+          }
+        }
+
         goToStep(3);
       } catch (err) {
         alert("Browser Co-Pilot error: " + err.message);

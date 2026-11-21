@@ -831,6 +831,34 @@
     // Bootstrap
     window.addEventListener("DOMContentLoaded", () => {
       initDropdowns();
+
+      // Handle ?prefill_case= URL parameter from Cloud Mode
+      const params = new URLSearchParams(window.location.search);
+      const prefillCaseId = params.get("prefill_case");
+      if (prefillCaseId) {
+        fetch("/api/cases").then(r => r.json()).then(data => {
+          const found = (data.cases || []).find(c => c.id === prefillCaseId);
+          if (found) {
+            submitGuidelines();
+            if (found.citizen_name) document.getElementById("name").value = found.citizen_name;
+            if (found.email) {
+              document.getElementById("email").value = found.email;
+              document.getElementById("confirm-email").value = found.email;
+            }
+            if (found.mobile) document.getElementById("mobile").value = found.mobile;
+            if (found.address) document.getElementById("address").value = found.address;
+            if (found.is_bpl) {
+              document.getElementById("is-bpl-yes").checked = true;
+              toggleBPL(true);
+            }
+            if (found.draft?.draft_text) {
+              const rtiTextArea = document.getElementById("rti-text");
+              rtiTextArea.value = found.draft.draft_text;
+              handleRtiTextInput(rtiTextArea);
+            }
+          }
+        }).catch(err => console.log("Prefill error:", err));
+      }
     });
   </script>
 </body>
