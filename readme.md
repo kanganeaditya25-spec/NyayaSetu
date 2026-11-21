@@ -2,7 +2,7 @@
 
 > **NxtWave IdeaForce Online Hackathon · Track 1: Civic Pulse, Digital Governance & Public Information**
 
-**Live Deployment:** ([https://nyayasetu-t3e1.onrender.com/](https://nyayasetu-t3e1.onrender.com))`  
+**Live Deployment:** [https://nyayasetu-t3e1.onrender.com/](https://nyayasetu-t3e1.onrender.com)  
 **Demo Video:** `[Add your 3-minute walkthrough video link here](https://your-demo-video-url.com)`
 
 ---
@@ -48,15 +48,26 @@ Under India's [Right to Information (RTI) Act, 2005](https://egovernance.vikaspe
 
 ---
 
-## Screenshots
+## Screenshots & Walkthrough
 
-| 1. Live Playwright Co-Pilot & Portal Sandbox | 2. RTI Filing Confirmation & 30-Day Watchdog Dashboard |
-| :---: | :---: |
-| ![Live Playwright Co-Pilot & Portal Sandbox](docs/screenshots/01_portal_sandbox_guidelines.jpg) | ![RTI Filing Confirmation & 30-Day Watchdog Dashboard](docs/screenshots/02_filing_confirmation_watchdog.jpg) |
+### 1. Live RTI Online Portal Sandbox (`STEP 1 OF 2`)
+> **Autonomous Co-Pilot Interoperability:** Automatically accepts statutory guidelines, validates character whitelist constraints, auto-compresses supporting PDF evidence under 1 MB, and handles Section 7(5) BPL exemptions directly on the portal.
 
-| 3. Day 31 Statutory First Appeal (Section 19(1) + Section 7(6) ₹0 Fee) |
-| :---: |
-| ![Day 31 Statutory First Appeal](docs/screenshots/03_day31_first_appeal_escalation.jpg) |
+![RTI Online Portal Sandbox](docs/screenshots/01_portal_sandbox_guidelines.jpg)
+
+---
+
+### 2. RTI Filing Confirmation & 30-Day Watchdog Dashboard
+> **Autonomous Filing & SLA Clock:** Captures the verified registration number (`RTI/2026/DEMO-4821`), establishes the statutory 30-day clock under Section 7(1), confirms ₹0 BPL application fee waiver, and mounts the active watchdog.
+
+![RTI Filing Confirmation & 30-Day Watchdog Dashboard](docs/screenshots/02_filing_confirmation_watchdog.jpg)
+
+---
+
+### 3. Day 31 Statutory First Appeal Escalation (`Section 19(1)` + `Section 7(6)`)
+> **Autonomous Legal Enforcement:** When the 30-day statutory response window elapses without records, `Prahari-Watch` auto-drafts a formal Section 19(1) First Appeal memorandum demanding certified records free of charge under Section 7(6) (₹0 Fee).
+
+![Day 31 Statutory First Appeal Escalation](docs/screenshots/03_day31_first_appeal_escalation.jpg)
 
 ---
 

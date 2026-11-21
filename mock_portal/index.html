@@ -832,13 +832,120 @@
     window.addEventListener("DOMContentLoaded", () => {
       initDropdowns();
 
-      // Handle ?prefill_case= URL parameter from Cloud Mode
       const params = new URLSearchParams(window.location.search);
+
+      // 1. Handle ?prefill=1 using localStorage (instant reliable cloud / local co-pilot prefill)
+      if (params.has("prefill")) {
+        try {
+          const rawPrefill = localStorage.getItem("nyayasetu_prefill");
+          if (rawPrefill) {
+            const data = JSON.parse(rawPrefill);
+
+            // Auto-check guidelines checkbox and proceed to Step 2 Form
+            const guideCheck = document.getElementById("guidelines-checkbox");
+            if (guideCheck) guideCheck.checked = true;
+            submitGuidelines();
+
+            // Match Ministry
+            if (data.ministry) {
+              const minSelect = document.getElementById("ministry-select");
+              if (minSelect) {
+                for (let i = 0; i < minSelect.options.length; i++) {
+                  const optText = minSelect.options[i].text.toLowerCase();
+                  const targetMin = data.ministry.toLowerCase();
+                  if (optText.includes(targetMin) || targetMin.includes(optText)) {
+                    minSelect.selectedIndex = i;
+                    break;
+                  }
+                }
+                handleMinistryChange();
+              }
+            }
+
+            // Match Authority
+            if (data.authority_name) {
+              const authSelect = document.getElementById("authority-select");
+              if (authSelect) {
+                for (let i = 0; i < authSelect.options.length; i++) {
+                  const optText = authSelect.options[i].text.toLowerCase();
+                  const targetAuth = data.authority_name.toLowerCase();
+                  if (optText.includes(targetAuth) || targetAuth.includes(optText)) {
+                    authSelect.selectedIndex = i;
+                    break;
+                  }
+                }
+                handleAuthorityChange();
+              }
+            }
+
+            // Populate Demographics
+            if (data.applicant_name) document.getElementById("name").value = data.applicant_name;
+            if (data.address) document.getElementById("address").value = data.address;
+            if (data.email) {
+              document.getElementById("email").value = data.email;
+              document.getElementById("confirm-email").value = data.email;
+            }
+            if (data.mobile) document.getElementById("mobile").value = data.mobile;
+
+            // Handle BPL Exemption
+            if (data.is_bpl) {
+              const bplYes = document.getElementById("is-bpl-yes");
+              if (bplYes) bplYes.checked = true;
+              toggleBPL(true);
+              if (data.bpl_card_no) document.getElementById("bpl-card-no").value = data.bpl_card_no;
+              if (data.bpl_year) document.getElementById("bpl-year").value = data.bpl_year;
+              if (data.bpl_authority) document.getElementById("bpl-authority").value = data.bpl_authority;
+            } else {
+              const bplNo = document.getElementById("is-bpl-no");
+              if (bplNo) bplNo.checked = true;
+              toggleBPL(false);
+            }
+
+            // Populate RTI Request Text
+            if (data.draft_text) {
+              const rtiTextArea = document.getElementById("rti-text");
+              if (rtiTextArea) {
+                rtiTextArea.value = data.draft_text;
+                handleRtiTextInput(rtiTextArea);
+              }
+            }
+
+            // Display floating Co-Pilot banner
+            const existingBanner = document.getElementById("nyayasetu-copilot-banner");
+            if (!existingBanner) {
+              const banner = document.createElement("div");
+              banner.id = "nyayasetu-copilot-banner";
+              banner.className = "fixed top-3 left-1/2 transform -translate-x-1/2 z-50 bg-indigo-900 text-white px-5 py-2.5 rounded-full shadow-2xl flex items-center space-x-3 border-2 border-amber-400";
+              banner.innerHTML = `
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-bold tracking-wide">NyayaSetu Co-Pilot Pre-Filled: Review details, enter Security Code &amp; click Submit</span>
+                <button onclick="this.parentElement.remove()" class="text-white hover:text-amber-300 font-bold ml-2">✕</button>
+              `;
+              document.body.appendChild(banner);
+            }
+
+            // Scroll smoothly to Security Code (CAPTCHA)
+            setTimeout(() => {
+              const captchaInput = document.getElementById("captcha-input");
+              if (captchaInput) {
+                captchaInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                captchaInput.focus();
+              }
+            }, 400);
+          }
+        } catch (err) {
+          console.warn("Local prefill error:", err);
+        }
+      }
+
+      // 2. Handle ?prefill_case= URL parameter from Cloud Mode fallback
       const prefillCaseId = params.get("prefill_case");
-      if (prefillCaseId) {
+      if (prefillCaseId && !params.has("prefill")) {
         fetch("/api/cases").then(r => r.json()).then(data => {
           const found = (data.cases || []).find(c => c.id === prefillCaseId);
           if (found) {
+            const guideCheck = document.getElementById("guidelines-checkbox");
+            if (guideCheck) guideCheck.checked = true;
             submitGuidelines();
             if (found.citizen_name) document.getElementById("name").value = found.citizen_name;
             if (found.email) {

@@ -83,7 +83,7 @@
           </div>
         </div>
 
-        <a href="/mock-portal/" target="_blank" class="hidden sm:inline-flex text-xs font-semibold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-300 transition items-center space-x-1">
+        <a href="/mock-portal/?prefill=1" target="_blank" onclick="saveActiveCasePrefill()" class="hidden sm:inline-flex text-xs font-semibold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-300 transition items-center space-x-1">
           <span>Sandbox Portal</span>
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
         </a>
@@ -1120,9 +1120,36 @@
       window.speechSynthesis.speak(utterance);
     }
 
+    // Save active case data for reliable cross-tab sandbox pre-filling
+    function saveActiveCasePrefill() {
+      if (!currentCaseData) return;
+      const bplToggle = document.getElementById("is-bpl-toggle");
+      const prefill = {
+        ministry: currentCaseData.authority?.ministry || "Ministry of Education",
+        authority_name: currentCaseData.authority?.authority_name || "Department of Higher Education",
+        applicant_name: document.getElementById("citizen-name")?.value || currentCaseData.citizen_name || "Priya Sharma",
+        email: document.getElementById("citizen-email")?.value || currentCaseData.email || "priya.sharma@example.com",
+        mobile: document.getElementById("citizen-mobile")?.value || currentCaseData.mobile || "9876543210",
+        address: document.getElementById("citizen-address")?.value || currentCaseData.address || "Flat 402, Sai Vihar, Kothrud, Pune, Maharashtra",
+        is_bpl: bplToggle ? bplToggle.checked : (currentCaseData.is_bpl ?? true),
+        bpl_card_no: document.getElementById("bpl-card-no")?.value || "BPL/MH/PUN/2023/88921",
+        bpl_year: document.getElementById("bpl-year")?.value || "2023",
+        bpl_authority: document.getElementById("bpl-authority")?.value || "Tehsildar Haveli, Pune",
+        draft_text: currentCaseData.draft?.draft_text || ""
+      };
+      try {
+        localStorage.setItem("nyayasetu_prefill", JSON.stringify(prefill));
+      } catch (e) {
+        console.warn("Could not save prefill to localStorage:", e);
+      }
+    }
+
     // Launch Browser Co-Pilot
     async function launchBrowserCopilot() {
       if (!currentCaseData) return;
+
+      // Persist prefill before launching
+      saveActiveCasePrefill();
 
       const overlay = document.getElementById("loading-overlay");
       overlay.classList.remove("hidden");
@@ -1155,15 +1182,18 @@
           currentCaseData.registration_number = result.registration_number;
         }
 
+        // Open pre-filled sandbox portal tab
+        try {
+          window.open('/mock-portal/?prefill=1', '_blank');
+        } catch (e) {
+          console.warn("Popup blocked:", e);
+        }
+
         // Handle Cloud Preview Portal Link
         const cloudLink = document.getElementById("cloud-portal-link");
         if (cloudLink) {
-          if (result.portal_url) {
-            cloudLink.href = result.portal_url;
-            cloudLink.classList.remove("hidden");
-          } else {
-            cloudLink.classList.add("hidden");
-          }
+          cloudLink.href = "/mock-portal/?prefill=1";
+          cloudLink.classList.remove("hidden");
         }
 
         // Update status badge for cloud mode
