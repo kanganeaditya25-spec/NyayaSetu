@@ -1,0 +1,406 @@
+[
+  {
+    "id": "MSJE-PUNE-01",
+    "ministry": "Ministry of Social Justice & Empowerment",
+    "authority_name": "District Social Welfare Office Pune",
+    "pio_title": "Assistant Commissioner, Social Welfare & PIO, Pune",
+    "first_appellate_authority": "Divisional Deputy Commissioner, Social Welfare, Pune Division",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "scholarship",
+      "social welfare",
+      "pune",
+      "post-matric",
+      "caste certificate",
+      "disability pension",
+      "hostel allowance",
+      "freeship"
+    ]
+  },
+  {
+    "id": "EDU-SCHOL-01",
+    "ministry": "Ministry of Education",
+    "authority_name": "Post-Matric Scholarship Cell, Department of Higher Education",
+    "pio_title": "Under Secretary (Scholarships) & CPIO",
+    "first_appellate_authority": "Deputy Secretary (Higher Education) & First Appellate Authority",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "scholarship",
+      "education",
+      "nsp",
+      "national scholarship portal",
+      "fellowship",
+      "post-matric",
+      "higher education",
+      "disbursement"
+    ]
+  },
+  {
+    "id": "PMC-WATER-01",
+    "ministry": "Urban Development Department (Maharashtra)",
+    "authority_name": "Pune Municipal Corporation Water Supply Department",
+    "pio_title": "Executive Engineer (Water Supply) & PIO, Swargate",
+    "first_appellate_authority": "Chief Engineer (Water Supply & Sewerage), PMC",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "water supply",
+      "drinking water",
+      "pipeline",
+      "water meter",
+      "pmc",
+      "pune municipal corporation",
+      "water cut",
+      "contamination",
+      "tanker"
+    ]
+  },
+  {
+    "id": "PWD-PUNE-01",
+    "ministry": "Public Works Department (Maharashtra)",
+    "authority_name": "Public Works Division Pune",
+    "pio_title": "Executive Engineer, PWD Division Pune & PIO",
+    "first_appellate_authority": "Superintending Engineer, Pune PWD Circle",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "pwd",
+      "public works",
+      "roads",
+      "potholes",
+      "bridge",
+      "highway repair",
+      "government building",
+      "tender",
+      "contractor"
+    ]
+  },
+  {
+    "id": "REV-TEHSIL-PUNE-01",
+    "ministry": "Revenue and Forest Department (Maharashtra)",
+    "authority_name": "Tehsil Office Haveli (Pune)",
+    "pio_title": "Tehsildar & Public Information Officer, Haveli Pune",
+    "first_appellate_authority": "Sub-Divisional Officer (SDO / Prant Officer), Haveli Sub-Division",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "revenue",
+      "tehsil",
+      "tehsildar",
+      "7/12 extract",
+      "satbara",
+      "land records",
+      "mutation",
+      "income certificate",
+      "domicile",
+      "caste validity"
+    ]
+  },
+  {
+    "id": "FCS-PUNE-01",
+    "ministry": "Food, Civil Supplies and Consumer Protection Department (Maharashtra)",
+    "authority_name": "District Supply Office Pune",
+    "pio_title": "District Supply Officer (DSO) & PIO, Pune",
+    "first_appellate_authority": "Deputy Commissioner (Supply), Pune Division",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "ration card",
+      "bpl card",
+      "fair price shop",
+      "ration quota",
+      "food grains",
+      "antyodaya",
+      "annapurna",
+      "civil supplies"
+    ]
+  },
+  {
+    "id": "MSEDCL-PUNE-01",
+    "ministry": "Energy Department (Maharashtra)",
+    "authority_name": "Maharashtra State Electricity Distribution Co. Ltd (MSEDCL) Pune Circle",
+    "pio_title": "Superintending Engineer & PIO, MSEDCL Pune Urban Circle",
+    "first_appellate_authority": "Chief Engineer & First Appellate Authority, Pune Zone",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "electricity",
+      "power outage",
+      "electricity bill",
+      "meter replacement",
+      "msedcl",
+      "mahadiscom",
+      "transformer",
+      "tariff"
+    ]
+  },
+  {
+    "id": "POLICE-PUNE-01",
+    "ministry": "Home Department (Maharashtra)",
+    "authority_name": "Pune City Police Commissionerate",
+    "pio_title": "Assistant Commissioner of Police (HQ / Admin) & PIO",
+    "first_appellate_authority": "Additional Commissioner of Police (Admin), Pune City",
+    "sla_days": 30,
+    "portal_type": "state",
+    "keywords": [
+      "police",
+      "fir copy",
+      "investigation status",
+      "police station pune",
+      "character verification",
+      "passport verification",
+      "gd entry"
+    ]
+  },
+  {
+    "id": "EPFO-PUNE-01",
+    "ministry": "Ministry of Labour and Employment",
+    "authority_name": "Employees' Provident Fund Organisation (EPFO) Regional Office Pune",
+    "pio_title": "Regional P.F. Commissioner-II & CPIO, Pune",
+    "first_appellate_authority": "Regional P.F. Commissioner-I & First Appellate Authority, Pune",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "epf",
+      "provident fund",
+      "epfo",
+      "uan",
+      "pension claim",
+      "pf withdrawal",
+      "form 19",
+      "form 10c",
+      "employer contribution"
+    ]
+  },
+  {
+    "id": "UIDAI-MUMBAI-01",
+    "ministry": "Ministry of Electronics and Information Technology",
+    "authority_name": "Unique Identification Authority of India (UIDAI) Regional Office Mumbai",
+    "pio_title": "Deputy Director & CPIO, UIDAI RO Mumbai",
+    "first_appellate_authority": "Assistant Director General & First Appellate Authority, UIDAI",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "aadhaar",
+      "uidai",
+      "aadhaar update",
+      "biometric update",
+      "enrolment rejection",
+      "e-aadhaar",
+      "identity records"
+    ]
+  },
+  {
+    "id": "RAIL-CR-PUNE-01",
+    "ministry": "Ministry of Railways",
+    "authority_name": "Central Railway Divisional Railway Manager Office, Pune",
+    "pio_title": "Divisional Commercial Manager & CPIO, Pune Division",
+    "first_appellate_authority": "Additional Divisional Railway Manager (ADRM), Pune Division",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "railways",
+      "train ticket",
+      "tdr refund",
+      "central railway",
+      "pune railway station",
+      "irctc",
+      "tatkal",
+      "railway concession"
+    ]
+  },
+  {
+    "id": "NHAI-PUNE-01",
+    "ministry": "Ministry of Road Transport and Highways",
+    "authority_name": "National Highways Authority of India (NHAI) Project Implementation Unit Pune",
+    "pio_title": "Project Director & CPIO, NHAI PIU Pune",
+    "first_appellate_authority": "Regional Officer & First Appellate Authority, NHAI Maharashtra",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "national highway",
+      "nhai",
+      "toll plaza",
+      "fastag charges",
+      "expressway maintenance",
+      "land acquisition compensation"
+    ]
+  },
+  {
+    "id": "MOHFW-AIIMS-01",
+    "ministry": "Ministry of Health and Family Welfare",
+    "authority_name": "All India Institute of Medical Sciences (AIIMS) New Delhi",
+    "pio_title": "Senior Administrative Officer & CPIO, AIIMS",
+    "first_appellate_authority": "Deputy Director (Administration) & First Appellate Authority, AIIMS",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "health",
+      "hospital",
+      "aiims",
+      "treatment record",
+      "medical board report",
+      "pmjay",
+      "ayushman bharat"
+    ]
+  },
+  {
+    "id": "CPWD-WEST-01",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "authority_name": "Central Public Works Department (CPWD) Pune Central Division",
+    "pio_title": "Executive Engineer (Civil) & CPIO, CPWD Pune",
+    "first_appellate_authority": "Superintending Engineer & First Appellate Authority, CPWD Mumbai Circle",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "cpwd",
+      "central quarters",
+      "government quarters allotment",
+      "housing repair",
+      "central civil works"
+    ]
+  },
+  {
+    "id": "SSC-NR-01",
+    "ministry": "Ministry of Personnel, Public Grievances and Pensions",
+    "authority_name": "Staff Selection Commission (SSC) Examination Division",
+    "pio_title": "Under Secretary (RTI) & CPIO, SSC HQ New Delhi",
+    "first_appellate_authority": "Deputy Secretary & First Appellate Authority, Staff Selection Commission",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "ssc",
+      "cgl",
+      "chsl",
+      "answer key",
+      "cut off marks",
+      "recruitment exam",
+      "marksheet verification",
+      "merit list"
+    ]
+  },
+  {
+    "id": "UPSC-EXAM-01",
+    "ministry": "Union Public Service Commission",
+    "authority_name": "Union Public Service Commission Examination Branch",
+    "pio_title": "Joint Secretary (RTI) & CPIO, UPSC Dholpur House",
+    "first_appellate_authority": "Additional Secretary & First Appellate Authority, UPSC",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "upsc",
+      "civil services",
+      "nda",
+      "cds",
+      "ias exam",
+      "marksheet",
+      "interview score",
+      "selection list"
+    ]
+  },
+  {
+    "id": "CBDT-PUNE-01",
+    "ministry": "Ministry of Finance",
+    "authority_name": "Income Tax Department Principal Chief Commissioner Office Pune",
+    "pio_title": "Income Tax Officer (Hqrs) (Technical) & CPIO, Pune",
+    "first_appellate_authority": "Joint Commissioner of Income Tax & First Appellate Authority, Pune",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "income tax",
+      "itr refund",
+      "pan card",
+      "tds credit",
+      "tax assessment",
+      "cbdt",
+      "form 26as"
+    ]
+  },
+  {
+    "id": "IOCL-LPG-01",
+    "ministry": "Ministry of Petroleum and Natural Gas",
+    "authority_name": "Indian Oil Corporation Limited (LPG Division - Maharashtra State Office)",
+    "pio_title": "Chief General Manager (LPG) & CPIO, IOCL",
+    "first_appellate_authority": "Executive Director & First Appellate Authority, IOCL",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "gas cylinder",
+      "indane",
+      "lpg subsidy",
+      "ujjwala yojana",
+      "gas booking",
+      "distributorship complaint"
+    ]
+  },
+  {
+    "id": "RD-MGNREGA-01",
+    "ministry": "Ministry of Rural Development",
+    "authority_name": "MGNREGA Division, Department of Rural Development",
+    "pio_title": "Under Secretary (MGNREGA) & CPIO, Krishi Bhawan",
+    "first_appellate_authority": "Director (MGNREGA) & First Appellate Authority, MoRD",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "mgnrega",
+      "nrega wage payment",
+      "job card",
+      "muster roll",
+      "social audit",
+      "rural employment"
+    ]
+  },
+  {
+    "id": "POSTS-MAHA-01",
+    "ministry": "Ministry of Communications",
+    "authority_name": "Department of Posts Maharashtra Circle",
+    "pio_title": "Assistant Director (Philately & RTI) & CPIO, Mumbai GPO",
+    "first_appellate_authority": "Director of Postal Services & First Appellate Authority",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "post office",
+      "speed post tracking",
+      "postal saving certificate",
+      "kisan vikas patra",
+      "money order",
+      "postal insurance"
+    ]
+  },
+  {
+    "id": "TRAI-CONS-01",
+    "ministry": "Ministry of Communications",
+    "authority_name": "Telecom Regulatory Authority of India (TRAI)",
+    "pio_title": "Senior Research Officer (RTI) & CPIO, TRAI New Delhi",
+    "first_appellate_authority": "Advisor (Administration) & First Appellate Authority, TRAI",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "trai",
+      "telecom",
+      "call drops",
+      "mobile portability",
+      "mnp",
+      "broadband speed",
+      "spam calls"
+    ]
+  },
+  {
+    "id": "DELHI-POLICE-01",
+    "ministry": "Ministry of Home Affairs",
+    "authority_name": "Delhi Police Public Grievance Cell",
+    "pio_title": "Deputy Commissioner of Police & CPIO, Police HQ",
+    "first_appellate_authority": "Joint Commissioner of Police & First Appellate Authority, Delhi Police",
+    "sla_days": 30,
+    "portal_type": "central",
+    "keywords": [
+      "delhi police",
+      "complaint enquiry",
+      "untrace report",
+      "fir copy",
+      "pcc verification"
+    ]
+  }
+]

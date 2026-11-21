@@ -1,0 +1,187 @@
+{
+  "portal_name": "RTI Online (Central / Mock Sandbox)",
+  "portal_url": "https://rtionline.gov.in",
+  "steps": [
+    {
+      "step": 1,
+      "name": "Guidelines Gate",
+      "elements": [
+        {
+          "id": "guidelines-checkbox",
+          "label": "I have read and understood the above guidelines",
+          "type": "checkbox",
+          "required": true
+        },
+        {
+          "id": "guidelines-submit",
+          "label": "Submit",
+          "type": "button"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "name": "Online RTI Request Form",
+      "sections": {
+        "public_authority": [
+          {
+            "id": "ministry-select",
+            "label": "Select Ministry/Department/Apex body",
+            "type": "select",
+            "required": true
+          },
+          {
+            "id": "authority-select",
+            "label": "Select Public Authority",
+            "type": "select",
+            "required": true
+          }
+        ],
+        "personal_details": [
+          {
+            "id": "email",
+            "label": "Email-ID",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "confirm-email",
+            "label": "Confirm Email-ID",
+            "type": "email",
+            "required": true
+          },
+          {
+            "id": "mobile",
+            "label": "Mobile Number (for SMS alerts)",
+            "type": "tel",
+            "required": false
+          },
+          {
+            "id": "name",
+            "label": "Name",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "gender",
+            "label": "Gender",
+            "type": "radio",
+            "options": [
+              "Male",
+              "Female",
+              "Third Gender"
+            ],
+            "required": false
+          },
+          {
+            "id": "address",
+            "label": "Address",
+            "type": "textarea",
+            "required": true
+          },
+          {
+            "id": "pincode",
+            "label": "Pin code",
+            "type": "text",
+            "required": false
+          },
+          {
+            "id": "state",
+            "label": "State",
+            "type": "select",
+            "required": false
+          },
+          {
+            "id": "status",
+            "label": "Status",
+            "type": "radio",
+            "options": [
+              "Rural",
+              "Urban"
+            ],
+            "required": false
+          },
+          {
+            "id": "citizenship",
+            "label": "Citizenship",
+            "type": "select",
+            "options": [
+              "Indian"
+            ],
+            "default": "Indian",
+            "required": true
+          }
+        ],
+        "request_and_fee": [
+          {
+            "id": "is-bpl-yes",
+            "name": "is-bpl",
+            "label": "Yes (Below Poverty Line)",
+            "type": "radio",
+            "value": "Yes"
+          },
+          {
+            "id": "is-bpl-no",
+            "name": "is-bpl",
+            "label": "No",
+            "type": "radio",
+            "value": "No",
+            "default": true
+          },
+          {
+            "id": "bpl-card-no",
+            "label": "BPL Card No.",
+            "type": "text",
+            "conditional_on": "is-bpl-yes"
+          },
+          {
+            "id": "bpl-year",
+            "label": "Year of Issue",
+            "type": "text",
+            "conditional_on": "is-bpl-yes"
+          },
+          {
+            "id": "bpl-authority",
+            "label": "Issuing Authority",
+            "type": "text",
+            "conditional_on": "is-bpl-yes"
+          },
+          {
+            "id": "rti-text",
+            "label": "Text for RTI Request application",
+            "type": "textarea",
+            "max_chars": 3000,
+            "allowed_regex": "^[A-Za-z0-9 ,.\\-_()/@:&?\\%\\n\\r]+$",
+            "required": true
+          },
+          {
+            "id": "supporting-doc",
+            "label": "Supporting document",
+            "type": "file",
+            "accept": ".pdf",
+            "max_mb": 1
+          },
+          {
+            "id": "captcha-input",
+            "label": "Enter Security Code",
+            "type": "text",
+            "human_gate": true,
+            "required": true
+          },
+          {
+            "id": "submit-request-btn",
+            "label": "Make Payment / Submit",
+            "type": "button",
+            "human_gate": true
+          }
+        ]
+      }
+    }
+  ],
+  "first_appeal_grounds": [
+    "No response within the time limit",
+    "Incomplete, misleading or false information",
+    "Refused access to information requested",
+    "Unreasonable fee demanded"
+  ]
+}

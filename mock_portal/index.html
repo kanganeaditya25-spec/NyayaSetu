@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RTI Online Portal - Mock Sandbox (rtionline.gov.in)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tricolor-stripe {
+      background: linear-gradient(90deg, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #138808 66.6%);
+      height: 4px;
+    }
+    .captcha-box {
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 5px;
+      user-select: none;
+      background: repeating-linear-gradient(
+        45deg,
+        #f1f5f9,
+        #f1f5f9 10px,
+        #e2e8f0 10px,
+        #e2e8f0 20px
+      );
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Top Tricolor Accent Bar -->
+  <div class="tricolor-stripe"></div>
+
+  <!-- Government Branding Header -->
+  <header class="bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-indigo-900 rounded-full flex items-center justify-center text-amber-400 font-bold text-xl shadow">
+          RTI
+        </div>
+        <div>
+          <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Government of India / Department of Personnel & Training</div>
+          <h1 class="text-xl font-bold text-indigo-950">RTI Online Portal <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded border border-amber-300 font-semibold ml-1">Mock Sandbox</span></h1>
+        </div>
+      </div>
+      <div class="text-right text-xs text-slate-600 hidden md:block">
+        <span class="inline-block bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-full border border-emerald-200 font-medium">● Portal Operational (24x7)</span>
+        <div class="mt-1 text-slate-400">Right to Information Act, 2005</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar with Tabs -->
+  <nav class="bg-indigo-900 text-white shadow">
+    <div class="max-w-6xl mx-auto px-4 flex space-x-1">
+      <button id="tab-request" onclick="switchTab('request')" class="px-5 py-3 text-sm font-semibold border-b-4 border-amber-400 bg-indigo-950/60 transition">
+        Submit Request
+      </button>
+      <button id="tab-appeal" onclick="switchTab('appeal')" class="px-5 py-3 text-sm font-semibold border-b-4 border-transparent hover:bg-indigo-800 transition text-indigo-200 hover:text-white">
+        Submit First Appeal
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
+
+    <!-- ==================================================================== -->
+    <!-- TAB 1: SUBMIT REQUEST -->
+    <!-- ==================================================================== -->
+    <div id="section-request">
+
+      <!-- STEP 1: GUIDELINES GATE SCREEN -->
+      <div id="step-1-guidelines" class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 md:p-8">
+        <div class="border-b border-slate-200 pb-4 mb-6">
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded">Step 1 of 2</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-2">Guidelines for use of RTI Online Portal</h2>
+          <p class="text-xs text-slate-500 mt-1">Please read the instructions carefully before proceeding to file an online RTI application.</p>
+        </div>
+
+        <div class="prose prose-sm max-w-none text-slate-700 space-y-3 bg-slate-50 p-5 rounded-md border border-slate-200 max-h-80 overflow-y-auto text-xs leading-relaxed">
+          <p><strong>1.</strong> This Web Portal can be used by Indian Citizens to file RTI applications and First Appeals online under the Right to Information Act, 2005.</p>
+          <p><strong>2.</strong> An applicant who desires to obtain information under the RTI Act can pay the prescribed fee through Internet Banking / Credit Card / Debit Card / UPI.</p>
+          <p><strong>3.</strong> The fee for seeking information under Section 6(1) of RTI Act 2005 is <strong>Rs. 10/-</strong> per application.</p>
+          <p><strong>4. Below Poverty Line (BPL) Exemption:</strong> No application fee is required to be paid by a citizen who belongs to Below Poverty Line (BPL) category under Section 7(5) of the Act. However, the applicant must attach a valid supporting document / BPL certificate proof.</p>
+          <p><strong>5. Character & Formatting Restriction:</strong> Text for RTI request application is limited to <strong>3,000 characters</strong>. Only alphabets A-Z, a-z, numbers 0-9 and special characters <code>, . - _ ( ) / @ : & ? \ %</code> and newlines are allowed.</p>
+          <p><strong>6. Supporting Document:</strong> Supporting document should be in <strong>PDF format only</strong> and file size should not exceed <strong>1 MB</strong>.</p>
+          <p><strong>7. Section 6(2) Protection:</strong> Applicant is not required to give reasons for seeking information or any personal details except those necessary for contact.</p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <label class="flex items-center space-x-3 cursor-pointer">
+            <input type="checkbox" id="guidelines-checkbox" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+            <span class="text-sm font-medium text-slate-800">I have read and understood the above guidelines.</span>
+          </label>
+          <button type="button" id="guidelines-submit" onclick="submitGuidelines()" class="w-full sm:w-auto px-6 py-2.5 bg-indigo-700 hover:bg-indigo-800 text-white font-medium text-sm rounded shadow transition flex items-center justify-center space-x-2">
+            <span>Submit & Proceed</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+        <p id="guidelines-alert" class="hidden text-xs text-rose-600 mt-2 font-medium">Please check the guidelines confirmation box before proceeding.</p>
+      </div>
+
+      <!-- STEP 2: ONLINE RTI REQUEST FORM -->
+      <div id="step-2-form" class="hidden space-y-6">
+
+        <form id="rti-request-form" onsubmit="event.preventDefault(); submitRTIForm();" class="space-y-6">
+
+          <!-- Section A: Public Authority Selection -->
+          <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+            <div class="border-b border-slate-200 pb-3 mb-4 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Section 1</span>
+                <h3 class="text-base font-bold text-slate-900 mt-1">Select Public Authority</h3>
+              </div>
+              <span class="text-xs text-slate-400">* Mandatory fields</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="ministry-select" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Select Ministry / Department / Apex Body <span class="text-rose-600">*</span>
+                </label>
+                <select id="ministry-select" class="w-full text-sm border border-slate-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required onchange="handleMinistryChange()">
+                  <option value="">-- Select Ministry / Department --</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="authority-select" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Select Public Authority <span class="text-rose-600">*</span>
+                </label>
+                <select id="authority-select" class="w-full text-sm border border-slate-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required onchange="handleAuthorityChange()">
+                  <option value="">-- Select Public Authority --</option>
+                </select>
+                <p id="authority-sla-badge" class="hidden mt-1 text-xs text-emerald-700 font-medium">
+                  Standard Response SLA: 30 statutory days (Section 7(1))
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section B: Personal Details -->
+          <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+            <div class="border-b border-slate-200 pb-3 mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Section 2</span>
+              <h3 class="text-base font-bold text-slate-900 mt-1">Personal Details of RTI Applicant</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label for="name" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Name <span class="text-rose-600">*</span>
+                </label>
+                <input type="text" id="name" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Full name as in ID" required>
+              </div>
+
+              <div>
+                <label for="gender" class="block text-xs font-semibold text-slate-700 mb-1">Gender</label>
+                <div class="flex items-center space-x-4 mt-2">
+                  <label class="inline-flex items-center text-xs">
+                    <input type="radio" name="gender" value="Male" id="gender-male" checked class="text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-1 text-slate-700">Male</span>
+                  </label>
+                  <label class="inline-flex items-center text-xs">
+                    <input type="radio" name="gender" value="Female" id="gender-female" class="text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-1 text-slate-700">Female</span>
+                  </label>
+                  <label class="inline-flex items-center text-xs">
+                    <input type="radio" name="gender" value="Third Gender" id="gender-other" class="text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-1 text-slate-700">Third Gender</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label for="citizenship" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Citizenship <span class="text-rose-600">*</span>
+                </label>
+                <select id="citizenship" class="w-full text-sm border border-slate-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                  <option value="Indian" selected>Indian</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="md:col-span-3">
+                <label for="address" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Address <span class="text-rose-600">*</span>
+                </label>
+                <textarea id="address" rows="2" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Postal delivery address for physical records" required></textarea>
+              </div>
+
+              <div>
+                <label for="pincode" class="block text-xs font-semibold text-slate-700 mb-1">Pincode</label>
+                <input type="text" id="pincode" maxlength="6" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="6-digit PIN">
+              </div>
+
+              <div>
+                <label for="state" class="block text-xs font-semibold text-slate-700 mb-1">State</label>
+                <select id="state" class="w-full text-sm border border-slate-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <option value="">-- Select State --</option>
+                  <option value="Maharashtra" selected>Maharashtra</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Other">Other State / UT</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="status" class="block text-xs font-semibold text-slate-700 mb-1">Status</label>
+                <div class="flex items-center space-x-4 mt-2">
+                  <label class="inline-flex items-center text-xs">
+                    <input type="radio" name="status" value="Urban" id="status-urban" checked class="text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-1 text-slate-700">Urban</span>
+                  </label>
+                  <label class="inline-flex items-center text-xs">
+                    <input type="radio" name="status" value="Rural" id="status-rural" class="text-indigo-600 focus:ring-indigo-500">
+                    <span class="ml-1 text-slate-700">Rural</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label for="mobile" class="block text-xs font-semibold text-slate-700 mb-1">Mobile Number (SMS alerts)</label>
+                <input type="tel" id="mobile" maxlength="10" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="10-digit mobile number">
+              </div>
+
+              <div>
+                <label for="email" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Email-ID <span class="text-rose-600">*</span>
+                </label>
+                <input type="email" id="email" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="name@example.com" required>
+              </div>
+
+              <div>
+                <label for="confirm-email" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Confirm Email-ID <span class="text-rose-600">*</span>
+                </label>
+                <input type="email" id="confirm-email" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Re-enter Email-ID" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section C: Request & Fee Details -->
+          <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+            <div class="border-b border-slate-200 pb-3 mb-4 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Section 3</span>
+                <h3 class="text-base font-bold text-slate-900 mt-1">Request & Statutory Fee Details</h3>
+              </div>
+              <div id="fee-badge" class="px-3 py-1 rounded text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+                Fee to Pay: Rs. 10
+              </div>
+            </div>
+
+            <!-- BPL Checkbox / Radios -->
+            <div class="bg-slate-50 p-4 rounded border border-slate-200 mb-4">
+              <label class="block text-xs font-semibold text-slate-800 mb-2">
+                Is the Applicant Below Poverty Line (BPL)? (Section 7(5)) <span class="text-rose-600">*</span>
+              </label>
+              <div class="flex items-center space-x-6">
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="radio" id="is-bpl-no" name="is-bpl" value="No" checked onchange="toggleBPL(false)" class="text-indigo-600 focus:ring-indigo-500">
+                  <span class="ml-2 text-xs font-medium text-slate-700">No (Standard Fee ₹10 Applies)</span>
+                </label>
+                <label class="inline-flex items-center cursor-pointer">
+                  <input type="radio" id="is-bpl-yes" name="is-bpl" value="Yes" onchange="toggleBPL(true)" class="text-indigo-600 focus:ring-indigo-500">
+                  <span class="ml-2 text-xs font-semibold text-emerald-800">Yes (Fee Exempted under Section 7(5))</span>
+                </label>
+              </div>
+
+              <!-- Conditional BPL Card Details -->
+              <div id="bpl-details-container" class="hidden mt-4 pt-3 border-t border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                  <label for="bpl-card-no" class="block text-xs font-semibold text-slate-700 mb-1">BPL Card No. <span class="text-rose-600">*</span></label>
+                  <input type="text" id="bpl-card-no" class="w-full text-sm border border-slate-300 rounded px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. BPL/MH/PUN/8921">
+                </div>
+                <div>
+                  <label for="bpl-year" class="block text-xs font-semibold text-slate-700 mb-1">Year of Issue <span class="text-rose-600">*</span></label>
+                  <input type="text" id="bpl-year" class="w-full text-sm border border-slate-300 rounded px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. 2022">
+                </div>
+                <div>
+                  <label for="bpl-authority" class="block text-xs font-semibold text-slate-700 mb-1">Issuing Authority <span class="text-rose-600">*</span></label>
+                  <input type="text" id="bpl-authority" class="w-full text-sm border border-slate-300 rounded px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="e.g. Tahsildar Haveli">
+                </div>
+              </div>
+            </div>
+
+            <!-- RTI Text Area with Real-Time Counter & Regex Validator -->
+            <div class="mb-4">
+              <div class="flex items-center justify-between mb-1">
+                <label for="rti-text" class="block text-xs font-semibold text-slate-800">
+                  Text for RTI Request Application (Max 3,000 characters) <span class="text-rose-600">*</span>
+                </label>
+                <span id="char-counter-badge" class="text-xs font-mono font-medium text-slate-500">
+                  <span id="char-counter">0</span> / 3000
+                </span>
+              </div>
+              <textarea id="rti-text" rows="8" maxlength="3000" oninput="handleRtiTextInput(this)" class="w-full font-mono text-xs border border-slate-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter specific, factual Section 6(1) record requests here..." required></textarea>
+              <div id="rti-text-error" class="hidden mt-1 text-xs text-rose-600 font-medium"></div>
+              <p class="text-[11px] text-slate-500 mt-1">
+                Only alphanumeric characters and <code>, . - _ ( ) / @ : & ? \ %</code> are permitted by the RTI Online portal engine.
+              </p>
+            </div>
+
+            <!-- Supporting Document Upload -->
+            <div class="mb-5 bg-slate-50 p-4 rounded border border-slate-200">
+              <label for="supporting-doc" class="block text-xs font-semibold text-slate-800 mb-1">
+                Supporting Document (Only PDF, Maximum 1 MB)
+              </label>
+              <input type="file" id="supporting-doc" accept=".pdf" onchange="validatePDFUpload(this)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+              <p id="file-size-alert" class="hidden mt-1 text-xs text-rose-600 font-medium">File exceeds 1 MB limit. Please compress before uploading.</p>
+            </div>
+
+            <!-- CAPTCHA Gate (Human Gate) -->
+            <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="flex items-center space-x-3">
+                <div class="captcha-box px-4 py-2 border-2 border-indigo-300 rounded text-xl font-bold text-indigo-900 bg-white shadow-inner">
+                  7K4M9
+                </div>
+                <div>
+                  <label for="captcha-input" class="block text-xs font-semibold text-slate-700 mb-1">
+                    Enter Security Code <span class="text-rose-600">*</span>
+                  </label>
+                  <input type="text" id="captcha-input" maxlength="6" class="w-32 uppercase text-sm font-mono border border-slate-300 rounded px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="CAPTCHA" required>
+                </div>
+              </div>
+
+              <!-- Submit Request Button (Human Gate) -->
+              <button type="submit" id="submit-request-btn" class="w-full sm:w-auto px-7 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm rounded shadow transition flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Make Payment / Submit Request</span>
+              </button>
+            </div>
+
+          </div>
+        </form>
+
+        <!-- SUBMISSION CONFIRMATION CARD -->
+        <div id="request-confirmation" class="hidden bg-white rounded-lg shadow-md border-2 border-emerald-500 p-6 md:p-8">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">RTI Application Successfully Submitted</h3>
+              <p class="text-xs text-slate-500">Your application has been received and routed to the Public Information Officer.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 rounded-lg p-5 border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <span class="text-slate-500 block">RTI Registration Number:</span>
+              <span id="registration-number" class="text-base font-mono font-bold text-indigo-900">RTI/2026/DEMO-4821</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Filing Timestamp:</span>
+              <span id="confirmation-timestamp" class="font-mono font-semibold text-slate-800"></span>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Target Public Authority:</span>
+              <span id="confirmation-authority" class="font-semibold text-slate-800"></span>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Statutory 30-Day SLA Due Date:</span>
+              <span id="confirmation-due-date" class="font-semibold text-emerald-700"></span>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center justify-end space-x-3">
+            <button onclick="printPortalAcknowledgment()" class="px-4 py-2 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300">
+              Print Acknowledgment
+            </button>
+            <button onclick="resetPortalForm()" class="px-4 py-2 text-xs font-semibold bg-indigo-700 hover:bg-indigo-800 text-white rounded">
+              File Another Request
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- TAB 2: SUBMIT FIRST APPEAL -->
+    <!-- ==================================================================== -->
+    <div id="section-appeal" class="hidden">
+      <div class="bg-white rounded-lg shadow-sm border border-slate-200 p-6 md:p-8">
+        <div class="border-b border-slate-200 pb-4 mb-6">
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200">Section 19(1)</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-2">Submit First Appeal Online</h2>
+          <p class="text-xs text-slate-500 mt-1">File a statutory appeal before the First Appellate Authority upon non-response or denial of records.</p>
+        </div>
+
+        <form id="first-appeal-form" onsubmit="event.preventDefault(); submitAppealForm();" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="appeal-reg-no" class="block text-xs font-semibold text-slate-700 mb-1">
+                Original RTI Registration Number <span class="text-rose-600">*</span>
+              </label>
+              <input type="text" id="appeal-reg-no" value="RTI/2026/DEMO-4821" class="w-full text-sm font-mono border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+            </div>
+
+            <div>
+              <label for="appeal-email" class="block text-xs font-semibold text-slate-700 mb-1">
+                Registered Email-ID <span class="text-rose-600">*</span>
+              </label>
+              <input type="email" id="appeal-email" class="w-full text-sm border border-slate-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="applicant@example.com" required>
+            </div>
+          </div>
+
+          <div>
+            <label for="appeal-ground" class="block text-xs font-semibold text-slate-700 mb-1">
+              Ground for First Appeal (Section 19(1)) <span class="text-rose-600">*</span>
+            </label>
+            <select id="appeal-ground" class="w-full text-sm border border-slate-300 rounded px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+              <option value="No response within the time limit" selected>No response within the time limit (30 Days Elapsed)</option>
+              <option value="Incomplete, misleading or false information">Incomplete, misleading or false information</option>
+              <option value="Refused access to information requested">Refused access to information requested</option>
+              <option value="Unreasonable fee demanded">Unreasonable fee demanded</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="appeal-text" class="block text-xs font-semibold text-slate-800">
+                Grounds / Prayers for Appeal (Max 3,000 characters) <span class="text-rose-600">*</span>
+              </label>
+              <span id="appeal-char-counter" class="text-xs font-mono text-slate-500">0 / 3000</span>
+            </div>
+            <textarea id="appeal-text" rows="6" maxlength="3000" oninput="document.getElementById('appeal-char-counter').textContent = this.value.length + ' / 3000';" class="w-full font-mono text-xs border border-slate-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="State reasons for appeal and claim free copy under Section 7(6)..." required></textarea>
+          </div>
+
+          <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+              <div class="captcha-box px-4 py-2 border-2 border-indigo-300 rounded text-xl font-bold text-indigo-900 bg-white shadow-inner">
+                9B2W4
+              </div>
+              <div>
+                <label for="appeal-captcha-input" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Enter Security Code <span class="text-rose-600">*</span>
+                </label>
+                <input type="text" id="appeal-captcha-input" maxlength="6" class="w-32 uppercase text-sm font-mono border border-slate-300 rounded px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="CAPTCHA" required>
+              </div>
+            </div>
+
+            <button type="submit" id="appeal-submit-btn" class="w-full sm:w-auto px-7 py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm rounded shadow transition flex items-center justify-center space-x-2">
+              <span>Submit First Appeal (Fee: Rs. 0)</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- APPEAL CONFIRMATION CARD -->
+        <div id="appeal-confirmation" class="hidden mt-6 bg-white rounded-lg shadow-md border-2 border-amber-500 p-6 md:p-8">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center text-amber-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-slate-900">First Appeal Successfully Registered</h3>
+              <p class="text-xs text-slate-500">Transferred to First Appellate Authority under Section 19(1).</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 rounded-lg p-5 border border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <span class="text-slate-500 block">Appeal Registration Number:</span>
+              <span id="appeal-registration-number" class="text-base font-mono font-bold text-amber-900">APPEAL/2026/DEMO-9104</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Filing Timestamp:</span>
+              <span id="appeal-timestamp" class="font-mono font-semibold text-slate-800"></span>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Statutory Section:</span>
+              <span class="font-semibold text-slate-800">Section 19(1) read with Section 7(6)</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block">Appeal Filing Fee:</span>
+              <span class="font-semibold text-emerald-700">₹0 (Zero Fee for Central/First Appeals)</span>
+            </div>
+          </div>
+
+          <div class="mt-5 flex items-center justify-end space-x-3">
+            <button onclick="printPortalAppeal()" class="px-4 py-2 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded border border-slate-300">
+              Print Appeal Acknowledgment
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-4 border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 RTI Online Portal Clone. Designed for RTI-Architect Civic Tech Sandbox.</p>
+      <p>Tested for Chrome DevTools / Playwright Autonomous Co-Pilot.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT: REAL DATA BINDINGS & CLIENT-SIDE VALIDATION -->
+  <script>
+    // Embedded authorities seed matching backend/data/authorities.json
+    const AUTHORITIES = [
+      { id: "MSJE-PUNE-01", ministry: "Ministry of Social Justice & Empowerment", name: "District Social Welfare Office Pune", sla: 30 },
+      { id: "EDU-SCHOL-01", ministry: "Ministry of Education", name: "Post-Matric Scholarship Cell, Department of Higher Education", sla: 30 },
+      { id: "PMC-WATER-01", ministry: "Urban Development Department (Maharashtra)", name: "Pune Municipal Corporation Water Supply Department", sla: 30 },
+      { id: "PWD-PUNE-01", ministry: "Public Works Department (Maharashtra)", name: "Public Works Division Pune", sla: 30 },
+      { id: "REV-TEHSIL-PUNE-01", ministry: "Revenue and Forest Department (Maharashtra)", name: "Tehsil Office Haveli (Pune)", sla: 30 },
+      { id: "FCS-PUNE-01", ministry: "Food, Civil Supplies and Consumer Protection Department (Maharashtra)", name: "District Supply Office Pune", sla: 30 },
+      { id: "MSEDCL-PUNE-01", ministry: "Energy Department (Maharashtra)", name: "Maharashtra State Electricity Distribution Co. Ltd (MSEDCL) Pune Circle", sla: 30 },
+      { id: "POLICE-PUNE-01", ministry: "Home Department (Maharashtra)", name: "Pune City Police Commissionerate", sla: 30 },
+      { id: "EPFO-PUNE-01", ministry: "Ministry of Labour and Employment", name: "Employees' Provident Fund Organisation (EPFO) Regional Office Pune", sla: 30 },
+      { id: "UIDAI-MUMBAI-01", ministry: "Ministry of Electronics and Information Technology", name: "Unique Identification Authority of India (UIDAI) Regional Office Mumbai", sla: 30 },
+      { id: "RAIL-CR-PUNE-01", ministry: "Ministry of Railways", name: "Central Railway Divisional Railway Manager Office, Pune", sla: 30 },
+      { id: "NHAI-PUNE-01", ministry: "Ministry of Road Transport and Highways", name: "National Highways Authority of India (NHAI) Project Implementation Unit Pune", sla: 30 },
+      { id: "MOHFW-AIIMS-01", ministry: "Ministry of Health and Family Welfare", name: "All India Institute of Medical Sciences (AIIMS) New Delhi", sla: 30 },
+      { id: "CPWD-WEST-01", ministry: "Ministry of Housing and Urban Affairs", name: "Central Public Works Department (CPWD) Pune Central Division", sla: 30 },
+      { id: "SSC-NR-01", ministry: "Ministry of Personnel, Public Grievances and Pensions", name: "Staff Selection Commission (SSC) Examination Division", sla: 30 },
+      { id: "UPSC-EXAM-01", ministry: "Union Public Service Commission", name: "Union Public Service Commission Examination Branch", sla: 30 },
+      { id: "CBDT-PUNE-01", ministry: "Ministry of Finance", name: "Income Tax Department Principal Chief Commissioner Office Pune", sla: 30 },
+      { id: "IOCL-LPG-01", ministry: "Ministry of Petroleum and Natural Gas", name: "Indian Oil Corporation Limited (LPG Division - Maharashtra State Office)", sla: 30 },
+      { id: "RD-MGNREGA-01", ministry: "Ministry of Rural Development", name: "MGNREGA Division, Department of Rural Development", sla: 30 },
+      { id: "POSTS-MAHA-01", ministry: "Ministry of Communications", name: "Department of Posts Maharashtra Circle", sla: 30 },
+      { id: "TRAI-CONS-01", ministry: "Ministry of Communications", name: "Telecom Regulatory Authority of India (TRAI)", sla: 30 },
+      { id: "DELHI-POLICE-01", ministry: "Ministry of Home Affairs", name: "Delhi Police Public Grievance Cell", sla: 30 }
+    ];
+
+    // Whitelist regex matching portal_schema.json: ^[A-Za-z0-9 ,.\-_()/@:&?\\%\n\r]+$
+    const ALLOWED_REGEX = /^[A-Za-z0-9 ,.\-_()/@:&?\\%\n\r]*$/;
+
+    // Populate Ministries on load
+    function initDropdowns() {
+      const ministrySelect = document.getElementById("ministry-select");
+      const ministries = [...new Set(AUTHORITIES.map(a => a.ministry))].sort();
+
+      ministries.forEach(min => {
+        const opt = document.createElement("option");
+        opt.value = min;
+        opt.textContent = min;
+        ministrySelect.appendChild(opt);
+      });
+    }
+
+    function handleMinistryChange() {
+      const selectedMin = document.getElementById("ministry-select").value;
+      const authoritySelect = document.getElementById("authority-select");
+      authoritySelect.innerHTML = '<option value="">-- Select Public Authority --</option>';
+      document.getElementById("authority-sla-badge").classList.add("hidden");
+
+      if (!selectedMin) return;
+
+      const filtered = AUTHORITIES.filter(a => a.ministry === selectedMin);
+      filtered.forEach(auth => {
+        const opt = document.createElement("option");
+        opt.value = auth.id;
+        opt.textContent = auth.name;
+        opt.dataset.sla = auth.sla;
+        authoritySelect.appendChild(opt);
+      });
+    }
+
+    function handleAuthorityChange() {
+      const authSelect = document.getElementById("authority-select");
+      const badge = document.getElementById("authority-sla-badge");
+      if (authSelect.value) {
+        badge.classList.remove("hidden");
+      } else {
+        badge.classList.add("hidden");
+      }
+    }
+
+    // Tab Navigation
+    function switchTab(tab) {
+      const reqSec = document.getElementById("section-request");
+      const appSec = document.getElementById("section-appeal");
+      const tabReq = document.getElementById("tab-request");
+      const tabApp = document.getElementById("tab-appeal");
+
+      if (tab === "request") {
+        reqSec.classList.remove("hidden");
+        appSec.classList.add("hidden");
+        tabReq.className = "px-5 py-3 text-sm font-semibold border-b-4 border-amber-400 bg-indigo-950/60 transition";
+        tabApp.className = "px-5 py-3 text-sm font-semibold border-b-4 border-transparent hover:bg-indigo-800 transition text-indigo-200 hover:text-white";
+      } else {
+        reqSec.classList.add("hidden");
+        appSec.classList.remove("hidden");
+        tabApp.className = "px-5 py-3 text-sm font-semibold border-b-4 border-amber-400 bg-indigo-950/60 transition";
+        tabReq.className = "px-5 py-3 text-sm font-semibold border-b-4 border-transparent hover:bg-indigo-800 transition text-indigo-200 hover:text-white";
+      }
+    }
+
+    // Step 1 -> Step 2 transition
+    function submitGuidelines() {
+      const checkbox = document.getElementById("guidelines-checkbox");
+      const alert = document.getElementById("guidelines-alert");
+      if (!checkbox.checked) {
+        alert.classList.remove("hidden");
+        return;
+      }
+      alert.classList.add("hidden");
+      document.getElementById("step-1-guidelines").classList.add("hidden");
+      document.getElementById("step-2-form").classList.remove("hidden");
+    }
+
+    // BPL Toggle
+    function toggleBPL(isBpl) {
+      const bplContainer = document.getElementById("bpl-details-container");
+      const feeBadge = document.getElementById("fee-badge");
+      const cardInput = document.getElementById("bpl-card-no");
+      const yearInput = document.getElementById("bpl-year");
+      const authInput = document.getElementById("bpl-authority");
+
+      if (isBpl) {
+        bplContainer.classList.remove("hidden");
+        feeBadge.textContent = "Fee: Rs. 0 (BPL Exempt)";
+        feeBadge.className = "px-3 py-1 rounded text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-300";
+        cardInput.required = true;
+        yearInput.required = true;
+        authInput.required = true;
+      } else {
+        bplContainer.classList.add("hidden");
+        feeBadge.textContent = "Fee to Pay: Rs. 10";
+        feeBadge.className = "px-3 py-1 rounded text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300";
+        cardInput.required = false;
+        yearInput.required = false;
+        authInput.required = false;
+      }
+    }
+
+    // Live RTI Text Character Counter & Real-Time Whitelist Validator
+    function handleRtiTextInput(textarea) {
+      const text = textarea.value;
+      const counter = document.getElementById("char-counter");
+      const counterBadge = document.getElementById("char-counter-badge");
+      const errorDiv = document.getElementById("rti-text-error");
+
+      counter.textContent = text.length;
+
+      if (!ALLOWED_REGEX.test(text)) {
+        errorDiv.textContent = "Warning: Contains disallowed characters! Only alphabets, numbers, and allowed punctuation are permitted.";
+        errorDiv.classList.remove("hidden");
+        counterBadge.className = "text-xs font-mono font-bold text-rose-600";
+      } else {
+        errorDiv.classList.add("hidden");
+        if (text.length > 2800) {
+          counterBadge.className = "text-xs font-mono font-bold text-amber-600";
+        } else {
+          counterBadge.className = "text-xs font-mono font-medium text-slate-500";
+        }
+      }
+    }
+
+    // PDF Upload Validation (Max 1 MB)
+    function validatePDFUpload(input) {
+      const fileAlert = document.getElementById("file-size-alert");
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (file.size > 1024 * 1024) {
+          fileAlert.classList.remove("hidden");
+          input.value = "";
+        } else {
+          fileAlert.classList.add("hidden");
+        }
+      }
+    }
+
+    // Form Submission Handler
+    function submitRTIForm() {
+      const email = document.getElementById("email").value;
+      const confirmEmail = document.getElementById("confirm-email").value;
+      if (email !== confirmEmail) {
+        alert("Email-ID and Confirm Email-ID do not match!");
+        return;
+      }
+
+      const rtiText = document.getElementById("rti-text").value;
+      if (!ALLOWED_REGEX.test(rtiText)) {
+        alert("Please remove invalid characters from RTI text before submission.");
+        return;
+      }
+
+      const authSelect = document.getElementById("authority-select");
+      const selectedAuthName = authSelect.options[authSelect.selectedIndex]?.text || "Selected Public Authority";
+
+      const now = new Date();
+      const dueDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+      document.getElementById("confirmation-timestamp").textContent = now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      document.getElementById("confirmation-authority").textContent = selectedAuthName;
+      document.getElementById("confirmation-due-date").textContent = dueDate.toLocaleDateString("en-IN");
+
+      document.getElementById("rti-request-form").classList.add("hidden");
+      document.getElementById("request-confirmation").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetPortalForm() {
+      document.getElementById("rti-request-form").reset();
+      document.getElementById("char-counter").textContent = "0";
+      document.getElementById("rti-request-form").classList.remove("hidden");
+      document.getElementById("request-confirmation").classList.add("hidden");
+      toggleBPL(false);
+    }
+
+    function submitAppealForm() {
+      const now = new Date();
+      document.getElementById("appeal-timestamp").textContent = now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      document.getElementById("appeal-confirmation").classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Formal Document Printing Helper
+    function openFormalDocumentPrint(type, data) {
+      const printWin = window.open('', '_blank', 'width=850,height=1100');
+      if (!printWin) {
+        alert("Popup blocked! Please allow popups to open formal print document.");
+        return;
+      }
+
+      const isAppeal = type.includes("Appeal") || type.includes("19(1)");
+      const docTitle = isAppeal
+        ? "ACKNOWLEDGMENT OF FIRST APPEAL UNDER SECTION 19(1)"
+        : "OFFICIAL ACKNOWLEDGMENT OF RTI APPLICATION UNDER SECTION 6(1)";
+      const nowStr = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'long', year: 'numeric' });
+
+      let bodyHtml = "";
+      if (isAppeal) {
+        bodyHtml = `
+          <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5pt;">
+            <tr><td style="padding:5px; font-weight:bold; width:40%;">Appeal Registration Number:</td><td style="padding:5px;"><strong>${data.appeal_reg_no || 'APPEAL/2026/DEMO-9104'}</strong></td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Original RTI Reg. Number:</td><td style="padding:5px;">${data.original_reg_no || 'RTI/2026/DEMO-4821'}</td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Registered Email-ID:</td><td style="padding:5px;">${data.email || 'applicant@example.com'}</td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Ground for Appeal:</td><td style="padding:5px;">${data.ground || 'No response within the time limit'}</td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Appeal Filing Fee:</td><td style="padding:5px;"><strong>₹0 (Zero Fee under Central/State Rules)</strong></td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Filing Timestamp:</td><td style="padding:5px;">${data.timestamp || nowStr}</td></tr>
+          </table>
+          <div style="font-weight:bold; margin-top:16px; text-transform:uppercase; border-bottom:1px solid #000;">Grounds of Appeal</div>
+          <div style="white-space:pre-wrap; font-family:'Times New Roman',serif; font-size:10.5pt; line-height:1.6; padding:10px 0;">${data.appeal_text || 'Statutory grounds submitted to First Appellate Authority.'}</div>
+        `;
+      } else {
+        bodyHtml = `
+          <table style="width:100%; border-collapse:collapse; margin-bottom:16px; font-size:10.5pt;">
+            <tr><td style="padding:5px; font-weight:bold; width:40%;">RTI Registration Number:</td><td style="padding:5px;"><strong>${data.reg_no || 'RTI/2026/DEMO-4821'}</strong></td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Target Public Authority:</td><td style="padding:5px;"><strong>${data.authority || 'District Social Welfare Office Pune'}</strong></td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Applicant Name:</td><td style="padding:5px;">${data.name || 'Priya Sharma'}</td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Filing Timestamp:</td><td style="padding:5px;">${data.timestamp || nowStr}</td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Statutory 30-Day Due Date:</td><td style="padding:5px;"><strong style="color:#059669;">${data.due_date || ''}</strong></td></tr>
+            <tr><td style="padding:5px; font-weight:bold;">Fee Payment Status:</td><td style="padding:5px;">${data.fee_status || 'Fee: Rs. 0 (BPL Exemption applied under Section 7(5))'}</td></tr>
+          </table>
+          <div style="font-weight:bold; margin-top:16px; text-transform:uppercase; border-bottom:1px solid #000;">Particulars of Information Requested</div>
+          <div style="white-space:pre-wrap; font-family:'Times New Roman',serif; font-size:10.5pt; line-height:1.6; padding:10px 0;">${data.rti_text || 'Formal Section 6(1) record requests.'}</div>
+        `;
+      }
+
+      const html = `<!DOCTYPE html>
+<html>
+<head>
+  <title>${docTitle}</title>
+  <style>
+    @page { size: A4; margin: 20mm; }
+    body { font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.5; color: #111; margin: 0; padding: 24px; }
+    h1 { font-size: 13pt; text-align: center; text-transform: uppercase; margin-bottom: 2px; }
+    .sub { text-align: center; font-size: 10pt; font-style: italic; color: #444; margin-bottom: 12px; }
+    hr { border: none; border-top: 2px solid #000; margin-bottom: 16px; }
+    @media print { body { padding: 0; } }
+  </style>
+</head>
+<body>
+  <h1>${docTitle}</h1>
+  <div class="sub">Government of India / Department of Personnel &amp; Training — RTI Online Portal</div>
+  <hr>
+  ${bodyHtml}
+  <div style="margin-top:40px; font-size:9.5pt; text-align:center; border-top:1px solid #ccc; padding-top:8px; color:#555;">
+    Official Acknowledgment generated by RTI Online Portal System.
+  </div>
+  <script>
+    window.onload = function() { setTimeout(function(){ window.print(); }, 350); };
+  <\/script>
+</body>
+</html>`;
+
+      printWin.document.open();
+      printWin.document.write(html);
+      printWin.document.close();
+    }
+
+    function printPortalAcknowledgment() {
+      const regNo = document.getElementById("registration-number").textContent;
+      const ts = document.getElementById("confirmation-timestamp").textContent;
+      const auth = document.getElementById("confirmation-authority").textContent;
+      const dueDate = document.getElementById("confirmation-due-date").textContent;
+      const name = document.getElementById("name").value;
+      const rtiText = document.getElementById("rti-text").value;
+      const isBpl = document.getElementById("is-bpl-yes").checked;
+
+      openFormalDocumentPrint("RTI Application Acknowledgment", {
+        reg_no: regNo,
+        timestamp: ts,
+        authority: auth,
+        due_date: dueDate,
+        name: name,
+        rti_text: rtiText,
+        fee_status: isBpl ? "Fee: Rs. 0 (Section 7(5) BPL Exemption)" : "Fee: Rs. 10 Paid",
+      });
+    }
+
+    function printPortalAppeal() {
+      const appealRegNo = document.getElementById("appeal-registration-number").textContent;
+      const origRegNo = document.getElementById("appeal-reg-no").value;
+      const email = document.getElementById("appeal-email").value;
+      const ground = document.getElementById("appeal-ground").value;
+      const appealText = document.getElementById("appeal-text").value;
+      const ts = document.getElementById("appeal-timestamp").textContent;
+
+      openFormalDocumentPrint("First Appeal Acknowledgment", {
+        appeal_reg_no: appealRegNo,
+        original_reg_no: origRegNo,
+        email: email,
+        ground: ground,
+        appeal_text: appealText,
+        timestamp: ts,
+      });
+    }
+
+    // Bootstrap
+    window.addEventListener("DOMContentLoaded", () => {
+      initDropdowns();
+    });
+  </script>
+</body>
+</html>

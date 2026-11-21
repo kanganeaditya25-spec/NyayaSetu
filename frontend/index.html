@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyayaSetu | AI-Powered Civic Accountability & Statutory Co-Pilot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tricolor-stripe {
+      background: linear-gradient(90deg, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #138808 66.6%);
+      height: 4px;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .recording-pulse {
+      animation: pulse-ring 1.5s infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Top Tricolor Accent Bar -->
+  <div class="tricolor-stripe"></div>
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <!-- NyayaSetu Custom Inline SVG Logo: Indigo & Saffron Shield + Balance Scales / Bridge -->
+        <div class="w-10 h-10 flex-shrink-0 cursor-pointer" onclick="goToStep(1)">
+          <svg class="w-10 h-10 shadow-sm rounded-lg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e1b4b"/>
+                <stop offset="100%" stop-color="#312e81"/>
+              </linearGradient>
+              <linearGradient id="saffronGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f97316"/>
+                <stop offset="100%" stop-color="#fbbf24"/>
+              </linearGradient>
+            </defs>
+            <!-- Shield Background -->
+            <path d="M24 4L8 10V22C8 32 15 40.5 24 44C33 40.5 40 32 40 22V10L24 4Z" fill="url(#shieldGrad)" stroke="url(#saffronGrad)" stroke-width="2"/>
+            <!-- Central Scales Pillar -->
+            <line x1="24" y1="12" x2="24" y2="33" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+            <!-- Balance Beam / Bridge Arch -->
+            <path d="M14 17C19 15.5 29 15.5 34 17" stroke="#fef08a" stroke-width="2" stroke-linecap="round"/>
+            <!-- Left Pan -->
+            <line x1="14" y1="17" x2="12" y2="23" stroke="#fef08a" stroke-width="1.2"/>
+            <line x1="14" y1="17" x2="16" y2="23" stroke="#fef08a" stroke-width="1.2"/>
+            <path d="M11 23C11 25.5 17 25.5 17 23Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1"/>
+            <!-- Right Pan -->
+            <line x1="34" y1="17" x2="32" y2="23" stroke="#fef08a" stroke-width="1.2"/>
+            <line x1="34" y1="17" x2="36" y2="23" stroke="#fef08a" stroke-width="1.2"/>
+            <path d="M31 23C31 25.5 37 25.5 37 23Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1"/>
+            <!-- Bridge Arch Base -->
+            <path d="M17 33C20 31 28 31 31 33" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl font-black tracking-tight text-indigo-950">NyayaSetu</h1>
+            <span class="text-[10px] font-bold bg-amber-50 text-amber-800 px-2 py-0.5 rounded border border-amber-300 uppercase tracking-wider">AI Co-Pilot</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">AI-Powered Civic Accountability &amp; Statutory Co-Pilot</p>
+        </div>
+      </div>
+
+      <!-- Right Header Actions: Auth + Status + Sandbox link -->
+      <div class="flex items-center space-x-3">
+        <!-- Auth Profile Badge / Login Button -->
+        <div id="auth-header-container">
+          <button type="button" onclick="openAuthModal()" id="btn-header-login" class="px-3 py-1.5 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5">
+            <span>Sign In / Demo</span>
+          </button>
+          <div id="user-profile-badge" class="hidden flex items-center space-x-2 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full text-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span id="user-display-name" class="font-bold text-indigo-900">Priya Sharma</span>
+            <button onclick="logoutCitizen()" class="text-slate-400 hover:text-rose-600 font-bold ml-1" title="Sign Out">✕</button>
+          </div>
+        </div>
+
+        <a href="/mock-portal/" target="_blank" class="hidden sm:inline-flex text-xs font-semibold px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-300 transition items-center space-x-1">
+          <span>Sandbox Portal</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Step Progress Bar with Dynamic Step Highlighting -->
+  <div class="bg-white border-b border-slate-200 py-3 shadow-inner">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+        <div id="step-nav-1" class="flex items-center space-x-2 text-indigo-700 cursor-pointer font-bold" onclick="goToStep(1)">
+          <span class="w-6 h-6 rounded-full bg-indigo-700 text-white flex items-center justify-center text-xs font-bold shadow">1</span>
+          <span>Citizen Intake</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-slate-200 mx-4 transition-colors duration-300" id="bar-1-2"></div>
+        <div id="step-nav-2" class="flex items-center space-x-2 text-slate-400 cursor-pointer" onclick="goToStep(2)">
+          <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">2</span>
+          <span>Legal Diff Review</span>
+        </div>
+        <div class="flex-1 h-0.5 bg-slate-200 mx-4 transition-colors duration-300" id="bar-2-3"></div>
+        <div id="step-nav-3" class="flex items-center space-x-2 text-slate-400 cursor-pointer" onclick="goToStep(3)">
+          <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold">3</span>
+          <span>Co-Pilot &amp; 30d Watchdog</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
+
+    <!-- ==================================================================== -->
+    <!-- SCREEN 1: CITIZEN VOICE & RECEIPT INTAKE -->
+    <!-- ==================================================================== -->
+    <div id="screen-1" class="space-y-6">
+
+      <!-- Judge Demo Shortcut Banner -->
+      <div class="bg-gradient-to-r from-amber-50 to-indigo-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-full bg-amber-400 text-indigo-950 flex items-center justify-center font-black text-sm">
+            ⚡
+          </div>
+          <div>
+            <div class="text-xs font-bold text-indigo-950 uppercase tracking-wide">Judge / Evaluator 1-Click Demo</div>
+            <div class="text-xs text-slate-600">Pre-populates Priya Sharma's 4-Month Stuck Pune Scholarship with Below Poverty Line (BPL) fee waiver.</div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button type="button" onclick="loadPriyaDemo()" class="whitespace-nowrap px-4 py-2 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-1.5">
+            <span>Load Priya's Scholarship Demo</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Intake Form -->
+      <form id="intake-form" onsubmit="event.preventDefault(); submitIntake();" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left 2 Cols: Demographics & Multimodal Inputs -->
+        <div class="lg:col-span-2 space-y-6">
+
+          <!-- Card 1: Citizen Profile -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+              <span>1. Citizen Applicant Profile</span>
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Full Name <span class="text-rose-500">*</span></label>
+                <input type="text" id="citizen_name" value="Priya Sharma" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Email-ID <span class="text-rose-500">*</span></label>
+                <input type="email" id="email" value="priya.sharma@example.com" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Mobile Number (SMS alerts)</label>
+                <input type="tel" id="mobile" value="9876543210" class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Audio Readback Language</label>
+                <select id="target_language" class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                  <option value="Hindi" selected>Hindi (हिन्दी)</option>
+                  <option value="Marathi">Marathi (मराठी)</option>
+                  <option value="English">English</option>
+                </select>
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block font-semibold text-slate-700 mb-1">Postal Delivery Address <span class="text-rose-500">*</span></label>
+                <textarea id="address" rows="2" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">Flat 402, Shivajinagar, Pune, Maharashtra - 411005</textarea>
+              </div>
+            </div>
+
+            <!-- Existing Application / Department References (Optional) -->
+            <div class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Application / Reference No. (Optional)</label>
+                <input type="text" id="application_ref_no" placeholder="e.g. MAHA-SCHOL-2026-9812" class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none font-mono">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Department / Office Name (Optional)</label>
+                <input type="text" id="dept_office_name" placeholder="e.g. District Social Welfare Office Pune" class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
+            </div>
+
+            <!-- BPL Toggle -->
+            <div class="mt-4 pt-4 border-t border-slate-100 bg-emerald-50/60 p-4 rounded-xl border border-emerald-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <input type="checkbox" id="is_bpl" checked onchange="handleBPLChange(this)" class="w-5 h-5 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500 cursor-pointer">
+                  <div>
+                    <label for="is_bpl" class="text-xs font-bold text-emerald-950 cursor-pointer">
+                      Below Poverty Line (BPL) Applicant — Section 7(5) Fee Waiver
+                    </label>
+                    <p class="text-[11px] text-emerald-700">Application fee of ₹10 is legally waived upon attaching BPL proof.</p>
+                  </div>
+                </div>
+                <span id="intake-fee-badge" class="px-2.5 py-1 text-xs font-black rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  Fee: Rs. 0
+                </span>
+              </div>
+
+              <!-- Conditional BPL Details Block -->
+              <div id="bpl-details-container" class="pt-3 border-t border-emerald-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <label class="block font-semibold text-emerald-900 mb-1">BPL Card No. <span class="text-rose-500">*</span></label>
+                  <input type="text" id="bpl_card_no" value="BPL/MH/PUN/2026-881" placeholder="e.g. BPL/MH/PUN/8921" class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-semibold text-emerald-900 mb-1">Year of Issue <span class="text-rose-500">*</span></label>
+                  <input type="text" id="bpl_year" value="2023" placeholder="e.g. 2023" class="w-full text-xs font-mono border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-semibold text-emerald-900 mb-1">Issuing Authority <span class="text-rose-500">*</span></label>
+                  <input type="text" id="bpl_authority" value="Tahsildar Haveli" placeholder="e.g. Tahsildar Haveli" class="w-full text-xs border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                </div>
+                <div class="sm:col-span-3">
+                  <label class="block font-semibold text-emerald-900 mb-1">BPL Certificate Upload (Optional if receipt attached)</label>
+                  <input type="file" id="bpl_certificate_file" accept="image/*,.pdf" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-100 file:text-emerald-800 hover:file:bg-emerald-200">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card 2: Voice Intake & Grievance -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-base font-bold text-slate-900 mb-2 flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+              <span>2. Citizen Grievance (Live Voice or Text)</span>
+            </h2>
+            <p class="text-xs text-slate-500 mb-4">Citizens speak naturally in Hindi, Marathi, or English. Vaani-ASR transcribes speech live into the text area.</p>
+
+            <!-- Voice Recording Widget -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-4">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                  <button type="button" id="record-btn" onclick="toggleAudioRecording()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-2">
+                    <span id="record-icon" class="w-3 h-3 rounded-full bg-white"></span>
+                    <span id="record-text">Record Voice Note</span>
+                  </button>
+                  <span id="record-timer" class="hidden text-xs font-mono font-bold text-rose-600">00:00</span>
+                  <span id="live-transcribe-status" class="hidden text-xs font-medium text-indigo-700 animate-pulse">Transcribing speech with Groq Whisper...</span>
+                </div>
+                <div class="text-xs text-slate-500">
+                  <span class="font-medium">Or upload audio file:</span>
+                  <input type="file" id="audio_file_input" accept="audio/*" onchange="handleAudioUpload(this)" class="ml-2 text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-slate-200 file:text-slate-700">
+                </div>
+              </div>
+              <div id="audio-playback-container" class="hidden mt-3 pt-3 border-t border-slate-200">
+                <audio id="audio-preview" controls class="w-full h-8"></audio>
+              </div>
+            </div>
+
+            <!-- Complaint Text Area -->
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-semibold text-slate-700">
+                  Citizen Grievance / Voice Transcript <span class="text-rose-500">*</span>
+                </label>
+                <span id="transcribe-live-badge" class="hidden text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Live Transcript Ready</span>
+              </div>
+              <textarea id="complaint_text" rows="4" required class="w-full text-xs font-sans border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Explain the stuck application, delay, or denied service in plain words..."></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Col: Receipt Upload & Submit Action -->
+        <div class="space-y-6">
+
+          <!-- Card 3: Receipt Upload -->
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h2 class="text-base font-bold text-slate-900 mb-2 flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+              <span>3. Receipt / Ack Slip Photo</span>
+            </h2>
+            <p class="text-xs text-slate-500 mb-4">Attach district acknowledgment, challan, or receipt photo. Converted to portal-compliant &lt;= 1 MB PDF.</p>
+
+            <div id="drop-zone" onclick="document.getElementById('receipt_image_input').click()" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-xl p-5 text-center cursor-pointer transition bg-slate-50 hover:bg-indigo-50/40">
+              <input type="file" id="receipt_image_input" accept="image/*" onchange="handleReceiptSelect(this)" class="hidden">
+              <div id="drop-prompt" class="space-y-2">
+                <svg class="w-8 h-8 mx-auto text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <div class="text-xs font-semibold text-slate-700">Click or Drag Receipt Photo Here</div>
+                <div class="text-[11px] text-slate-400">JPG, PNG up to 10 MB (auto-compressed)</div>
+              </div>
+              <div id="preview-container" class="hidden">
+                <img id="receipt-preview" class="max-h-40 mx-auto rounded shadow border border-slate-200 object-contain">
+                <div id="file-name-label" class="mt-2 text-xs font-semibold text-slate-600"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Primary Action CTA Card -->
+          <div class="bg-indigo-950 text-white rounded-xl shadow-md p-6 space-y-4">
+            <div>
+              <div class="text-xs text-amber-300 font-bold uppercase tracking-wider">Multi-Agent AI Pipeline</div>
+              <h3 class="text-lg font-black text-white mt-0.5">Analyze &amp; Draft Legal RTI</h3>
+              <p class="text-xs text-slate-300 mt-1">Runs Vaani-ASR, Drishti-Doc OCR, Adhikar-RAG, and Nyaya-Draft statutory rewriter.</p>
+            </div>
+
+            <button type="submit" id="intake-submit-btn" class="w-full py-3.5 bg-amber-400 hover:bg-amber-300 text-indigo-950 font-black text-sm rounded-lg shadow-lg transition flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Analyze &amp; Draft Legal RTI</span>
+            </button>
+            <p class="text-[11px] text-slate-400 text-center">Zero LLM hallucinations: 100% statutory citations from verified templates.</p>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- SCREEN 2: SIDE-BY-SIDE LEGAL DIFF & CITIZEN VOICE REVIEW -->
+    <!-- ==================================================================== -->
+    <div id="screen-2" class="hidden space-y-6">
+
+      <!-- Top Authority Summary Card -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-4 mb-4">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Adhikar-RAG Match</span>
+              <span id="diff-fee-badge" class="text-xs font-black px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Rs. 0 BPL Exempt</span>
+            </div>
+            <h2 id="diff-authority-name" class="text-xl font-black text-slate-900 mt-1">District Social Welfare Office Pune</h2>
+            <div id="diff-ministry-name" class="text-xs text-slate-500">Ministry of Social Justice &amp; Empowerment</div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="playCitizenSummaryTTS()" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5">
+              <span id="tts-icon">🔊</span>
+              <span>Listen Summary</span>
+            </button>
+            <button type="button" onclick="printSection6Application()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5">
+              <span>📄 Print Section 6(1) Doc</span>
+            </button>
+            <button type="button" onclick="goToStep(3)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-1.5">
+              <span>Proceed to Portal Co-Pilot</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+          <div>
+            <span class="text-slate-400 block font-medium">Designated PIO:</span>
+            <span id="diff-pio-title" class="font-bold text-slate-800">Assistant Commissioner, Social Welfare</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-medium">Statutory SLA Window:</span>
+            <span class="font-bold text-emerald-700">30 Calendar Days (Section 7(1))</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-medium">Receipt PDF Status:</span>
+            <span id="diff-pdf-status" class="font-bold text-slate-800">PDF Ready (&lt;= 1 MB)</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block font-medium">Section 6(1) Chars:</span>
+            <span id="diff-char-count" class="font-mono font-bold text-indigo-700">0 / 3000 Chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plain-Language Summary Card -->
+      <div id="tts-summary-card" class="bg-indigo-900 text-white rounded-xl p-5 shadow-sm border border-indigo-800 flex items-start space-x-4">
+        <div class="w-10 h-10 rounded-full bg-amber-400 text-indigo-950 flex items-center justify-center font-bold text-lg flex-shrink-0">
+          🗣️
+        </div>
+        <div class="space-y-1">
+          <div class="text-xs font-bold uppercase tracking-wider text-amber-300">Vaani-ASR Multilingual Readback</div>
+          <p id="tts-summary-text" class="text-sm font-medium text-slate-100 leading-relaxed"></p>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Legal Diff Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Left: What You Said (Raw Grievance) -->
+        <div class="bg-rose-50/50 rounded-xl border-2 border-rose-200 p-6 space-y-3">
+          <div class="flex items-center justify-between border-b border-rose-200 pb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+              <h3 class="font-black text-rose-950 text-sm">What You Said (Raw Grievance)</h3>
+            </div>
+            <span class="text-[10px] font-bold bg-rose-100 text-rose-800 px-2 py-0.5 rounded border border-rose-300">
+              ⚠️ High Rejection Risk (Opinion/Why)
+            </span>
+          </div>
+          <p class="text-xs text-rose-800">Public Information Officers routinely dismiss questions asking <em>"Why"</em> or demanding opinions under Section 6(1).</p>
+          <div id="diff-raw-complaint" class="p-4 bg-white rounded-lg border border-rose-200 text-xs text-slate-800 leading-relaxed font-sans max-h-96 overflow-y-auto whitespace-pre-wrap"></div>
+        </div>
+
+        <!-- Right: What NyayaSetu Drafted (Section 6(1) Records) -->
+        <div class="bg-emerald-50/50 rounded-xl border-2 border-emerald-300 p-6 space-y-3">
+          <div class="flex items-center justify-between border-b border-emerald-200 pb-2.5">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+              <h3 class="font-black text-emerald-950 text-sm">What NyayaSetu Drafted (Section 6(1))</h3>
+            </div>
+            <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-300">
+              ✅ 100% Legally Protected (Section 6(1) &amp; 6(2))
+            </span>
+          </div>
+          <p class="text-xs text-emerald-800">Converted into specific requests for existing physical files, movement registers, and SLA file notings.</p>
+          <div id="diff-legal-draft" class="p-4 bg-white rounded-lg border border-emerald-200 text-xs text-slate-800 leading-relaxed font-mono max-h-96 overflow-y-auto whitespace-pre-wrap"></div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Launch CTA -->
+      <div class="flex items-center justify-between bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+        <button type="button" onclick="goToStep(1)" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900">
+          ← Back to Edit Intake
+        </button>
+        <button type="button" onclick="launchBrowserCopilot()" class="px-6 py-3 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-sm rounded-lg shadow transition flex items-center space-x-2">
+          <span>Launch Setu-Browser Co-Pilot</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- SCREEN 3: CO-PILOT EXECUTION & 30-DAY WATCHDOG -->
+    <!-- ==================================================================== -->
+    <div id="screen-3" class="hidden space-y-6">
+
+      <!-- Co-Pilot Status & Registration Card -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span id="copilot-status-badge" class="text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded border border-emerald-300">
+                SUBMITTED TO PORTAL
+              </span>
+              <span class="text-xs text-slate-400">Setu-Browser Co-Pilot</span>
+            </div>
+            <h2 class="text-2xl font-black text-slate-900 mt-1">RTI Filing Confirmation &amp; Watchdog</h2>
+            <p class="text-xs text-slate-500">Autonomous co-pilot completed filing and captured statutory acknowledgment.</p>
+          </div>
+
+          <div class="flex items-center space-x-3">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-right">
+              <span class="text-[10px] text-slate-400 block font-semibold uppercase">Official Registration No</span>
+              <span id="screen3-reg-no" class="text-xl font-mono font-black text-indigo-900">RTI/2026/DEMO-4821</span>
+            </div>
+            <button type="button" onclick="printFormalAcknowledgment()" class="px-3.5 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 font-bold text-xs rounded-lg shadow-sm transition flex items-center space-x-1.5" title="Print Formal Legal Acknowledgment">
+              <span>🖨️ Print Doc</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 30-Day Countdown & SLA Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-200">
+            <span class="text-xs font-semibold text-indigo-900 block mb-1">Section 7(1) Statutory Window</span>
+            <span class="text-3xl font-black text-indigo-950 font-mono">30 <span class="text-sm font-semibold text-indigo-700">Days</span></span>
+            <p class="text-[11px] text-indigo-700 mt-1">PIO must deliver records within 30 calendar days of submission.</p>
+          </div>
+
+          <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200">
+            <span class="text-xs font-semibold text-emerald-900 block mb-1">Application Fee Status</span>
+            <span class="text-3xl font-black text-emerald-950 font-mono">₹0 <span class="text-sm font-semibold text-emerald-700">Waived</span></span>
+            <p class="text-[11px] text-emerald-700 mt-1">Section 7(5) BPL exemption applied with attached certificate.</p>
+          </div>
+
+          <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-200 flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-semibold text-amber-900 block mb-1">Escalation Watchdog Status</span>
+              <span id="watchdog-state-label" class="text-sm font-bold text-amber-950">Active Timer Running</span>
+            </div>
+            <button type="button" onclick="simulateDay31()" id="btn-simulate-day31" class="w-full mt-2 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-lg shadow transition flex items-center justify-center space-x-1.5">
+              <span>⚡ Simulate Day 31 (No Reply)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generated Section 19(1) First Appeal Container -->
+      <div id="appeal-reveal-container" class="hidden bg-white rounded-xl shadow-md border-2 border-amber-400 p-6 md:p-8 space-y-4">
+        <div class="flex items-center justify-between border-b border-amber-200 pb-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+              ⚖️
+            </div>
+            <div>
+              <h3 class="text-base font-black text-slate-900">Section 19(1) First Appeal Memorandum Generated</h3>
+              <p class="text-xs text-slate-500">Triggered automatically because the 30-day statutory response window expired.</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-black px-2.5 py-1 rounded bg-amber-100 text-amber-900 border border-amber-300">
+              Section 7(6) Free Copies (₹0 Fee)
+            </span>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 text-xs font-mono text-slate-800 leading-relaxed max-h-96 overflow-y-auto whitespace-pre-wrap" id="appeal-text-display"></div>
+
+        <div class="flex items-center justify-end space-x-3 pt-2">
+          <button type="button" onclick="copyAppealText()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded border border-slate-300 shadow-sm transition">
+            Copy Appeal Memorandum
+          </button>
+          <button type="button" onclick="printFormalFirstAppeal()" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded shadow transition flex items-center space-x-1.5">
+            <span>📄 Print Formal Appeal Document</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recent Cases Dashboard Table -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-slate-900">Citizen RTI Cases &amp; 30-Day Watchdogs</h3>
+          <button type="button" onclick="loadRecentCases()" class="text-xs font-semibold text-indigo-700 hover:text-indigo-900 flex items-center space-x-1">
+            <span>Refresh Table</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-50 text-slate-600 uppercase text-[10px] tracking-wider border-b border-slate-200">
+              <tr>
+                <th class="py-2.5 px-3">Case ID</th>
+                <th class="py-2.5 px-3">Citizen Name</th>
+                <th class="py-2.5 px-3">Public Authority</th>
+                <th class="py-2.5 px-3">Status</th>
+                <th class="py-2.5 px-3">Registration No</th>
+                <th class="py-2.5 px-3">SLA Status</th>
+                <th class="py-2.5 px-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="cases-table-body" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="7" class="py-4 text-center text-slate-400">Loading citizen cases...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Citizen Authentication Modal -->
+  <div id="auth-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-md w-full space-y-5 relative">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg font-bold">✕</button>
+
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 bg-indigo-50 border border-indigo-200 rounded-xl flex items-center justify-center mx-auto text-xl shadow-sm">
+          ⚖️
+        </div>
+        <h3 class="text-lg font-black text-indigo-950">Citizen Sign In &amp; Registration</h3>
+        <p class="text-xs text-slate-500">Secure statutory RTI filings scoped to your citizen account.</p>
+      </div>
+
+      <!-- 1-Click Demo Shortcut for Judges -->
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center space-y-2">
+        <div class="text-xs font-bold text-amber-900">Judging / Demo Mode</div>
+        <button type="button" onclick="demoCitizenSignIn()" class="w-full py-2 bg-amber-400 hover:bg-amber-300 text-indigo-950 font-black text-xs rounded-lg shadow transition flex items-center justify-center space-x-1.5">
+          <span>⚡ 1-Click Demo Citizen Sign-In (Priya Sharma)</span>
+        </button>
+      </div>
+
+      <!-- Modal Tabs: Sign In / Register -->
+      <div class="flex border-b border-slate-200 text-xs font-bold">
+        <button type="button" id="tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 border-b-2 border-indigo-600 text-indigo-700">
+          Sign In
+        </button>
+        <button type="button" id="tab-register" onclick="switchAuthTab('register')" class="flex-1 py-2 border-b-2 border-transparent text-slate-400 hover:text-slate-700">
+          Create Account
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="event.preventDefault(); submitCitizenLogin();" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Email-ID</label>
+          <input type="email" id="login-email" value="demo@nyayasetu.in" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Password</label>
+          <input type="password" id="login-password" value="demo1234" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+        <p id="auth-error-msg" class="hidden text-rose-600 text-[11px] font-medium"></p>
+        <button type="submit" class="w-full py-2.5 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-lg shadow transition">
+          Sign In to NyayaSetu
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="register-form" onsubmit="event.preventDefault(); submitCitizenRegister();" class="hidden space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Full Name</label>
+          <input type="text" id="reg-fullname" placeholder="Citizen Full Name" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Email-ID</label>
+          <input type="email" id="reg-email" placeholder="name@example.com" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Password (min 6 characters)</label>
+          <input type="password" id="reg-password" minlength="6" placeholder="Create password" required class="w-full text-sm border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+        <p id="reg-error-msg" class="hidden text-rose-600 text-[11px] font-medium"></p>
+        <button type="submit" class="w-full py-2.5 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-lg shadow transition">
+          Create Citizen Account
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Global Loading Spinner Overlay -->
+  <div id="loading-overlay" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-md w-full text-center space-y-4">
+      <div class="w-12 h-12 border-4 border-indigo-700 border-t-amber-400 rounded-full animate-spin mx-auto"></div>
+      <h3 class="text-base font-black text-slate-900" id="loading-title">Processing Intake</h3>
+      <p class="text-xs text-slate-600 leading-relaxed" id="loading-subtitle">
+        Vaani-ASR → Drishti-Doc → Adhikar-RAG → Nyaya-Draft running...
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-4 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 NyayaSetu. Open-source civic intelligence under Right to Information Act, 2005.</p>
+      <p>Tested against rtionline.gov.in sandbox with human-in-the-loop consent gate.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT: NYAYASETU APPLICATION CONTROLLER -->
+  <script>
+    // State Management
+    let currentStep = 1;
+    let currentCaseData = null;
+    let recordedAudioBlob = null;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordTimerInterval = null;
+    let recordSeconds = 0;
+    let currentAppealData = null;
+
+    // Authentication State
+    let authToken = localStorage.getItem("nyayasetu_token") || null;
+    let currentUser = null;
+    try {
+      currentUser = JSON.parse(localStorage.getItem("nyayasetu_user") || "null");
+    } catch (e) {
+      currentUser = null;
+    }
+
+    function getAuthHeaders() {
+      const headers = {};
+      if (authToken) {
+        headers["X-Session-Token"] = authToken;
+        headers["Authorization"] = "Bearer " + authToken;
+      }
+      return headers;
+    }
+
+    function updateAuthUI() {
+      const btnLogin = document.getElementById("btn-header-login");
+      const userBadge = document.getElementById("user-profile-badge");
+      const userDisplay = document.getElementById("user-display-name");
+
+      if (authToken && currentUser) {
+        btnLogin.classList.add("hidden");
+        userBadge.classList.remove("hidden");
+        userDisplay.textContent = currentUser.full_name || currentUser.email;
+      } else {
+        btnLogin.classList.remove("hidden");
+        userBadge.classList.add("hidden");
+      }
+    }
+
+    function openAuthModal() {
+      document.getElementById("auth-modal").classList.remove("hidden");
+    }
+
+    function closeAuthModal() {
+      document.getElementById("auth-modal").classList.add("hidden");
+      document.getElementById("auth-error-msg").classList.add("hidden");
+      document.getElementById("reg-error-msg").classList.add("hidden");
+    }
+
+    function switchAuthTab(tab) {
+      const isLogin = tab === 'login';
+      document.getElementById("login-form").classList.toggle("hidden", !isLogin);
+      document.getElementById("register-form").classList.toggle("hidden", isLogin);
+      document.getElementById("tab-login").className = isLogin
+        ? "flex-1 py-2 border-b-2 border-indigo-600 text-indigo-700"
+        : "flex-1 py-2 border-b-2 border-transparent text-slate-400 hover:text-slate-700";
+      document.getElementById("tab-register").className = !isLogin
+        ? "flex-1 py-2 border-b-2 border-indigo-600 text-indigo-700"
+        : "flex-1 py-2 border-b-2 border-transparent text-slate-400 hover:text-slate-700";
+    }
+
+    async function demoCitizenSignIn() {
+      try {
+        const res = await fetch("/api/auth/demo", { method: "POST" });
+        if (!res.ok) throw new Error("Demo sign-in failed");
+        const data = await res.json();
+        authToken = data.token;
+        currentUser = data.user;
+        localStorage.setItem("nyayasetu_token", authToken);
+        localStorage.setItem("nyayasetu_user", JSON.stringify(currentUser));
+        updateAuthUI();
+        closeAuthModal();
+        loadPriyaDemo();
+        loadRecentCases();
+      } catch (err) {
+        alert("Demo sign-in error: " + err.message);
+      }
+    }
+
+    async function submitCitizenLogin() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      const errorMsg = document.getElementById("auth-error-msg");
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || "Login failed");
+        }
+        const data = await res.json();
+        authToken = data.token;
+        currentUser = data.user;
+        localStorage.setItem("nyayasetu_token", authToken);
+        localStorage.setItem("nyayasetu_user", JSON.stringify(currentUser));
+        updateAuthUI();
+        closeAuthModal();
+        loadRecentCases();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+        errorMsg.classList.remove("hidden");
+      }
+    }
+
+    async function submitCitizenRegister() {
+      const full_name = document.getElementById("reg-fullname").value;
+      const email = document.getElementById("reg-email").value;
+      const password = document.getElementById("reg-password").value;
+      const errorMsg = document.getElementById("reg-error-msg");
+
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ full_name, email, password }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.detail || "Registration failed");
+        }
+        const data = await res.json();
+        authToken = data.token;
+        currentUser = data.user;
+        localStorage.setItem("nyayasetu_token", authToken);
+        localStorage.setItem("nyayasetu_user", JSON.stringify(currentUser));
+        updateAuthUI();
+        closeAuthModal();
+        loadRecentCases();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+        errorMsg.classList.remove("hidden");
+      }
+    }
+
+    function logoutCitizen() {
+      authToken = null;
+      currentUser = null;
+      localStorage.removeItem("nyayasetu_token");
+      localStorage.removeItem("nyayasetu_user");
+      updateAuthUI();
+      loadRecentCases();
+    }
+
+    // Step Navigation with Accurate Step & Bar Highlighting
+    function goToStep(step) {
+      if (step === 2 && !currentCaseData) {
+        alert("Please complete the citizen intake step first.");
+        return;
+      }
+      if (step === 3 && !currentCaseData) {
+        alert("Please complete the intake and legal diff first.");
+        return;
+      }
+
+      currentStep = step;
+      document.getElementById("screen-1").classList.toggle("hidden", step !== 1);
+      document.getElementById("screen-2").classList.toggle("hidden", step !== 2);
+      document.getElementById("screen-3").classList.toggle("hidden", step !== 3);
+
+      // Update progress bar connecting lines
+      const bar12 = document.getElementById("bar-1-2");
+      const bar23 = document.getElementById("bar-2-3");
+      if (bar12) bar12.className = step >= 2 ? "flex-1 h-0.5 bg-indigo-700 mx-4 transition-colors" : "flex-1 h-0.5 bg-slate-200 mx-4 transition-colors";
+      if (bar23) bar23.className = step >= 3 ? "flex-1 h-0.5 bg-indigo-700 mx-4 transition-colors" : "flex-1 h-0.5 bg-slate-200 mx-4 transition-colors";
+
+      // Update step nav labels and badge circles
+      const nav1 = document.getElementById("step-nav-1");
+      const nav2 = document.getElementById("step-nav-2");
+      const nav3 = document.getElementById("step-nav-3");
+
+      nav1.className = step >= 1 ? "flex items-center space-x-2 text-indigo-700 cursor-pointer font-bold" : "flex items-center space-x-2 text-slate-400 cursor-pointer";
+      nav2.className = step >= 2 ? "flex items-center space-x-2 text-indigo-700 cursor-pointer font-bold" : "flex items-center space-x-2 text-slate-400 cursor-pointer";
+      nav3.className = step >= 3 ? "flex items-center space-x-2 text-indigo-700 cursor-pointer font-bold" : "flex items-center space-x-2 text-slate-400 cursor-pointer";
+
+      const badge1 = nav1.querySelector("span:first-child");
+      const badge2 = nav2.querySelector("span:first-child");
+      const badge3 = nav3.querySelector("span:first-child");
+
+      if (badge1) badge1.className = step >= 1 ? "w-6 h-6 rounded-full bg-indigo-700 text-white flex items-center justify-center text-xs font-bold shadow" : "w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold";
+      if (badge2) badge2.className = step >= 2 ? "w-6 h-6 rounded-full bg-indigo-700 text-white flex items-center justify-center text-xs font-bold shadow" : "w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold";
+      if (badge3) badge3.className = step >= 3 ? "w-6 h-6 rounded-full bg-indigo-700 text-white flex items-center justify-center text-xs font-bold shadow" : "w-6 h-6 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-bold";
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (step === 3) {
+        loadRecentCases();
+      }
+    }
+
+    // Demo Pre-loader for Evaluators
+    function loadPriyaDemo() {
+      document.getElementById("citizen_name").value = "Priya Sharma";
+      document.getElementById("email").value = "priya.sharma@example.com";
+      document.getElementById("mobile").value = "9876543210";
+      document.getElementById("address").value = "Flat 402, Shivajinagar, Pune, Maharashtra - 411005";
+      document.getElementById("target_language").value = "Hindi";
+      document.getElementById("application_ref_no").value = "MAHA-SCHOL-2026-9812";
+      document.getElementById("dept_office_name").value = "District Social Welfare Office Pune";
+
+      document.getElementById("is_bpl").checked = true;
+      handleBPLChange(document.getElementById("is_bpl"));
+      document.getElementById("bpl_card_no").value = "BPL/MH/PUN/2026-881";
+      document.getElementById("bpl_year").value = "2023";
+      document.getElementById("bpl_authority").value = "Tahsildar Haveli";
+
+      document.getElementById("complaint_text").value =
+        "Mera scholarship 4 mahine se atka hai, college fee mang raha hai aur admission cancel karne ki dhamki de raha hai. " +
+        "District Social Welfare Office Pune me bola tha ki 30 din me scholarship release ho jayegi par koi update nahi hai. " +
+        "Why was my scholarship payment delayed? Application number MAHA-SCHOL-2026-9812 hai. Kripya sari file notings aur approval status provide karein.";
+
+      // Load sample receipt image preview
+      const preview = document.getElementById("receipt-preview");
+      preview.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='150' viewBox='0 0 400 150'><rect width='100%' height='100%' fill='%23f8fafc'/><text x='20' y='40' font-family='sans-serif' font-size='14' font-weight='bold' fill='%231e1b4b'>District Social Welfare Office Pune</text><text x='20' y='70' font-family='sans-serif' font-size='12' fill='%23475569'>App ID: MAHA-SCHOL-2026-9812</text><text x='20' y='95' font-family='sans-serif' font-size='12' fill='%23475569'>Date: 15/07/2026 | Applicant: Priya Sharma</text><text x='20' y='125' font-family='sans-serif' font-size='11' fill='%23059669'>BPL Certified Fee Waiver Enclosed</text></svg>";
+      document.getElementById("drop-prompt").classList.add("hidden");
+      document.getElementById("preview-container").classList.remove("hidden");
+      document.getElementById("file-name-label").textContent = "priya_scholarship_ack_receipt.png (Demo attached)";
+    }
+
+    function handleBPLChange(checkbox) {
+      const badge = document.getElementById("intake-fee-badge");
+      const container = document.getElementById("bpl-details-container");
+      if (checkbox.checked) {
+        badge.textContent = "Fee: Rs. 0";
+        badge.className = "px-2.5 py-1 text-xs font-black rounded bg-emerald-100 text-emerald-800 border border-emerald-300";
+        if (container) container.classList.remove("hidden");
+      } else {
+        badge.textContent = "Fee: Rs. 10";
+        badge.className = "px-2.5 py-1 text-xs font-black rounded bg-amber-100 text-amber-900 border border-amber-300";
+        if (container) container.classList.add("hidden");
+      }
+    }
+
+    // Receipt File Selection
+    function handleReceiptSelect(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById("receipt-preview").src = e.target.result;
+          document.getElementById("drop-prompt").classList.add("hidden");
+          document.getElementById("preview-container").classList.remove("hidden");
+          document.getElementById("file-name-label").textContent = file.name;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Live Voice Recording & Immediate Groq Whisper Transcription
+    async function toggleAudioRecording() {
+      const btn = document.getElementById("record-btn");
+      const text = document.getElementById("record-text");
+      const icon = document.getElementById("record-icon");
+      const timer = document.getElementById("record-timer");
+
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        clearInterval(recordTimerInterval);
+        btn.className = "px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-2";
+        icon.className = "w-3 h-3 rounded-full bg-white";
+        text.textContent = "Record Again";
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          recordedAudioBlob = new Blob(audioChunks, { type: "audio/wav" });
+          const audioUrl = URL.createObjectURL(recordedAudioBlob);
+          const preview = document.getElementById("audio-preview");
+          preview.src = audioUrl;
+          document.getElementById("audio-playback-container").classList.remove("hidden");
+          stream.getTracks().forEach(track => track.stop());
+
+          // Trigger Live Speech-to-Text Transcription via /api/transcribe
+          await transcribeLiveAudioBlob(recordedAudioBlob);
+        };
+
+        mediaRecorder.start();
+        recordSeconds = 0;
+        timer.classList.remove("hidden");
+        recordTimerInterval = setInterval(() => {
+          recordSeconds++;
+          const mins = String(Math.floor(recordSeconds / 60)).padStart(2, '0');
+          const secs = String(recordSeconds % 60).padStart(2, '0');
+          timer.textContent = `${mins}:${secs}`;
+        }, 1000);
+
+        btn.className = "px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow transition flex items-center space-x-2 recording-pulse";
+        icon.className = "w-3 h-3 rounded-full bg-rose-500 animate-ping";
+        text.textContent = "Stop Recording";
+      } catch (err) {
+        alert("Microphone permission denied or not supported: " + err.message);
+      }
+    }
+
+    async function handleAudioUpload(input) {
+      if (input.files && input.files[0]) {
+        await transcribeLiveAudioBlob(input.files[0]);
+      }
+    }
+
+    async function transcribeLiveAudioBlob(audioFileBlob) {
+      const statusLabel = document.getElementById("live-transcribe-status");
+      const badge = document.getElementById("transcribe-live-badge");
+      statusLabel.classList.remove("hidden");
+
+      try {
+        const formData = new FormData();
+        formData.append("audio_file", audioFileBlob, "citizen_voice.wav");
+        formData.append("target_language", document.getElementById("target_language").value);
+
+        const res = await fetch("/api/transcribe", {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: formData,
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.transcript) {
+            const textarea = document.getElementById("complaint_text");
+            textarea.value = data.transcript;
+            badge.textContent = `Transcribed live via Groq Whisper (${data.language || 'hi'})`;
+            badge.classList.remove("hidden");
+          }
+        }
+      } catch (e) {
+        console.warn("Live transcribe error:", e);
+      } finally {
+        statusLabel.classList.add("hidden");
+      }
+    }
+
+    // Submit Multimodal Intake
+    async function submitIntake() {
+      const overlay = document.getElementById("loading-overlay");
+      overlay.classList.remove("hidden");
+      document.getElementById("loading-title").textContent = "Processing Multimodal Intake";
+      document.getElementById("loading-subtitle").textContent = "Vaani-ASR → Drishti-Doc OCR → Adhikar-RAG → Nyaya-Draft statutory rewriter running...";
+
+      const formData = new FormData();
+      formData.append("applicant_name", document.getElementById("citizen_name").value);
+      formData.append("email", document.getElementById("email").value);
+      formData.append("mobile", document.getElementById("mobile").value);
+      formData.append("address", document.getElementById("address").value);
+      formData.append("complaint_text", document.getElementById("complaint_text").value);
+      formData.append("is_bpl", document.getElementById("is_bpl").checked ? "true" : "false");
+      formData.append("target_language", document.getElementById("target_language").value);
+
+      // Additional Reference & BPL Fields
+      formData.append("application_ref_no", document.getElementById("application_ref_no").value);
+      formData.append("dept_office_name", document.getElementById("dept_office_name").value);
+      formData.append("bpl_card_no", document.getElementById("bpl_card_no").value);
+      formData.append("bpl_year", document.getElementById("bpl_year").value);
+      formData.append("bpl_authority", document.getElementById("bpl_authority").value);
+
+      // BPL Certificate file if uploaded
+      const bplCertInput = document.getElementById("bpl_certificate_file");
+      if (bplCertInput.files && bplCertInput.files[0]) {
+        formData.append("bpl_certificate", bplCertInput.files[0]);
+      }
+
+      // Audio file
+      if (recordedAudioBlob) {
+        formData.append("audio_file", recordedAudioBlob, "voice_intake.wav");
+      } else {
+        const audioInput = document.getElementById("audio_file_input");
+        if (audioInput.files && audioInput.files[0]) {
+          formData.append("audio_file", audioInput.files[0]);
+        }
+      }
+
+      // Receipt image
+      const receiptInput = document.getElementById("receipt_image_input");
+      if (receiptInput.files && receiptInput.files[0]) {
+        formData.append("receipt_image", receiptInput.files[0]);
+      }
+
+      try {
+        const res = await fetch("/api/intake", {
+          method: "POST",
+          headers: getAuthHeaders(),
+          body: formData,
+        });
+
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+
+        const data = await res.json();
+        currentCaseData = data;
+        populateScreen2(data);
+        goToStep(2);
+      } catch (err) {
+        alert("Intake failed: " + err.message);
+      } finally {
+        overlay.classList.add("hidden");
+      }
+    }
+
+    // Populate Screen 2
+    function populateScreen2(data) {
+      document.getElementById("diff-authority-name").textContent = data.authority.name;
+      document.getElementById("diff-ministry-name").textContent = data.authority.ministry;
+      document.getElementById("diff-pio-title").textContent = data.authority.pio_title;
+
+      const feeBadge = document.getElementById("diff-fee-badge");
+      if (data.is_bpl) {
+        feeBadge.textContent = "Rs. 0 BPL Exempt (Section 7(5))";
+        feeBadge.className = "text-xs font-black px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300";
+      } else {
+        feeBadge.textContent = "Rs. 10 Standard Fee";
+        feeBadge.className = "text-xs font-black px-2.5 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300";
+      }
+
+      document.getElementById("diff-char-count").textContent = `${data.char_count} / 3000 Chars`;
+      document.getElementById("diff-raw-complaint").textContent = data.raw_complaint;
+      document.getElementById("diff-legal-draft").textContent = data.draft_text;
+      document.getElementById("tts-summary-text").textContent = data.citizen_summary || "RTI application prepared.";
+      document.getElementById("diff-pdf-status").textContent = data.pdf_path ? "PDF Ready (<= 1 MB)" : "Attached Receipt";
+    }
+
+    // Audio Readback using SpeechSynthesis
+    function playCitizenSummaryTTS() {
+      if (!('speechSynthesis' in window)) {
+        alert("Speech synthesis is not supported in this browser.");
+        return;
+      }
+
+      const text = document.getElementById("tts-summary-text").textContent;
+      if (!text) return;
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      const targetLang = document.getElementById("target_language").value;
+
+      if (targetLang === "Hindi") {
+        utterance.lang = "hi-IN";
+      } else if (targetLang === "Marathi") {
+        utterance.lang = "mr-IN";
+      } else {
+        utterance.lang = "en-IN";
+      }
+
+      const icon = document.getElementById("tts-icon");
+      utterance.onstart = () => { icon.textContent = "🔊 Speaking..."; };
+      utterance.onend = () => { icon.textContent = "🔊"; };
+      utterance.onerror = () => { icon.textContent = "🔊"; };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Launch Browser Co-Pilot
+    async function launchBrowserCopilot() {
+      if (!currentCaseData) return;
+
+      const overlay = document.getElementById("loading-overlay");
+      overlay.classList.remove("hidden");
+      document.getElementById("loading-title").textContent = "Launching Setu-Browser Co-Pilot";
+      document.getElementById("loading-subtitle").textContent = "Opening Chromium... filling demographics, routing authority, and pausing at CAPTCHA for consent...";
+
+      try {
+        const res = await fetch("/api/execute-browser", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders(),
+          },
+          body: JSON.stringify({
+            case_id: currentCaseData.case_id,
+            portal_url: window.location.origin + "/mock-portal/",
+            auto_test_captcha: "7K4M9", // Auto-fulfill in demo mode
+            keep_open: true // Keep browser open for inspection
+          }),
+        });
+
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+
+        const result = await res.json();
+        document.getElementById("screen3-reg-no").textContent = result.registration_number;
+        if (currentCaseData) {
+          currentCaseData.registration_number = result.registration_number;
+        }
+        goToStep(3);
+      } catch (err) {
+        alert("Browser Co-Pilot error: " + err.message);
+      } finally {
+        overlay.classList.add("hidden");
+      }
+    }
+
+    // Simulate Day 31 Escalation
+    async function simulateDay31() {
+      if (!currentCaseData) return;
+
+      const btn = document.getElementById("btn-simulate-day31");
+      btn.textContent = "Generating Appeal...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`/api/cases/${currentCaseData.case_id}/simulate-day31`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders(),
+          },
+          body: JSON.stringify({ ground: "No response within the time limit" })
+        });
+
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error(err);
+        }
+
+        const data = await res.json();
+        currentAppealData = data;
+        document.getElementById("appeal-text-display").textContent = data.appeal_text;
+        document.getElementById("appeal-reveal-container").classList.remove("hidden");
+        document.getElementById("watchdog-state-label").textContent = "Section 19(1) Appeal Filed";
+        btn.textContent = "Appeal Generated (₹0 Fee)";
+        loadRecentCases();
+      } catch (err) {
+        alert("Day 31 simulation failed: " + err.message);
+        btn.textContent = "⚡ Simulate Day 31 (No Reply)";
+        btn.disabled = false;
+      }
+    }
+
+    function copyAppealText() {
+      const text = document.getElementById("appeal-text-display").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("First Appeal memorandum copied to clipboard!");
+      });
+    }
+
+    // ========================================================================
+    // FORMAL DOCUMENT PRINTING HELPER (REAL A4 LEGAL TYPOGRAPHY)
+    // ========================================================================
+
+    function openFormalDocumentPrint(type, data) {
+      const printWin = window.open('', '_blank', 'width=850,height=1100');
+      if (!printWin) {
+        alert("Popup blocked! Please allow popups to open the formal print document.");
+        return;
+      }
+
+      const isAppeal = type.includes("Appeal") || type.includes("19(1)");
+      const docTitle = isAppeal
+        ? "MEMORANDUM OF FIRST APPEAL UNDER SECTION 19(1)"
+        : "APPLICATION FOR SEEKING INFORMATION UNDER SECTION 6(1)";
+      const actSubtitle = "THE RIGHT TO INFORMATION ACT, 2005";
+      const nowStr = new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'long', year: 'numeric' });
+
+      let detailsHtml = "";
+
+      if (isAppeal) {
+        detailsHtml = `
+          <table class="meta-table">
+            <tr><td class="lbl">1. Original RTI Registration No:</td><td class="val"><strong>${data.registration_no || data.registration_number || 'RTI/2026/DEMO-4821'}</strong></td></tr>
+            <tr><td class="lbl">2. Original Application Filing Date:</td><td class="val">${data.filed_at || '30 days prior'}</td></tr>
+            <tr><td class="lbl">3. Public Authority:</td><td class="val"><strong>${data.authority_name || data.authority?.name || 'District Social Welfare Office Pune'}</strong></td></tr>
+            <tr><td class="lbl">4. Designated Public Information Officer:</td><td class="val">${data.pio_title || data.authority?.pio_title || 'Assistant Commissioner & Public Information Officer'}</td></tr>
+            <tr><td class="lbl">5. First Appellate Authority (FAA):</td><td class="val">${data.faa_title || 'First Appellate Authority (FAA)'}</td></tr>
+            <tr><td class="lbl">6. Statutory Grounds for Appeal:</td><td class="val"><strong>${data.ground || 'No response within the statutory 30-day time limit (Section 7(1))'}</strong></td></tr>
+            <tr><td class="lbl">7. Statutory Appeal Fee:</td><td class="val"><strong>₹0.00 (Exempt under Central/State First Appeal Rules & Sec 7(6))</strong></td></tr>
+          </table>
+
+          <div class="section-title">STATEMENT OF FACTS &amp; GROUNDS FOR APPEAL (SECTION 19(1))</div>
+          <div class="content-box">${data.appeal_text || data.draft_text || ''}</div>
+
+          <div class="section-title">STATUTORY CLAIM UNDER SECTION 7(6)</div>
+          <p class="statutory-note">
+            The Public Information Officer failed to deliver the requested records within the mandatory thirty (30) day timeline prescribed under Section 7(1). Consequently, the Appellant is statutorily entitled to receive all certified copies, files, and records <strong>FREE OF ALL COST</strong> as mandated by <strong>Section 7(6)</strong> of the Right to Information Act, 2005.
+          </p>
+        `;
+      } else {
+        const applicantName = data.citizen_name || data.applicant_name || (currentUser?.full_name) || "Priya Sharma";
+        const email = data.email || (currentUser?.email) || "priya.sharma@example.com";
+        const authorityName = data.authority?.name || data.authority_name || "District Social Welfare Office Pune";
+        const ministry = data.authority?.ministry || data.ministry || "Ministry of Social Justice & Empowerment";
+        const pioTitle = data.authority?.pio_title || data.pio_title || "Assistant Commissioner & PIO";
+        const regNo = data.registration_number || data.registration_no || "RTI/2026/DEMO-4821";
+
+        detailsHtml = `
+          <table class="meta-table">
+            <tr><td class="lbl">1. RTI Registration Number:</td><td class="val"><strong>${regNo}</strong></td></tr>
+            <tr><td class="lbl">2. Public Authority Addressed:</td><td class="val"><strong>${authorityName}</strong></td></tr>
+            <tr><td class="lbl">3. Ministry / Apex Body:</td><td class="val">${ministry}</td></tr>
+            <tr><td class="lbl">4. Designated PIO:</td><td class="val">${pioTitle}</td></tr>
+            <tr><td class="lbl">5. Name of Applicant:</td><td class="val">${applicantName}</td></tr>
+            <tr><td class="lbl">6. Postal Delivery Address:</td><td class="val">${data.address || 'Flat 402, Shivajinagar, Pune, Maharashtra - 411005'}</td></tr>
+            <tr><td class="lbl">7. Contact Information:</td><td class="val">${email} ${data.mobile ? ' | Mobile: ' + data.mobile : ''}</td></tr>
+            <tr><td class="lbl">8. BPL Category (Section 7(5)):</td><td class="val"><strong>${data.is_bpl ? 'YES (Fee Exempted ₹0 — BPL Card & Certificate Enclosed)' : 'NO (Prescribed Fee ₹10 Paid)'}</strong></td></tr>
+            ${data.bpl_card_no ? `<tr><td class="lbl">9. BPL Card Details:</td><td class="val">Card: ${data.bpl_card_no} | Year: ${data.bpl_year || '2023'} | Issuing Authority: ${data.bpl_authority || 'Tahsildar Haveli'}</td></tr>` : ''}
+          </table>
+
+          <div class="section-title">PARTICULARS OF INFORMATION SOUGHT (SECTION 6(1))</div>
+          <div class="content-box">${data.draft_text || ''}</div>
+
+          <div class="section-title">STATUTORY DECLARATION &amp; SECTION 6(2) PROTECTION</div>
+          <p class="statutory-note">
+            1. The applicant is a citizen of India.<br>
+            2. In terms of <strong>Section 6(2)</strong> of the Right to Information Act, 2005, an applicant seeking information shall not be required to give any reason for requesting the information or any other personal details except those that may be necessary for contacting the applicant.<br>
+            3. All information sought pertains to material records as defined under Section 2(f) and Section 2(j) of the Act.
+          </p>
+        `;
+      }
+
+      const printHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${docTitle}</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm;
+    }
+    body {
+      font-family: 'Times New Roman', Times, Georgia, serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #111;
+      background: #fff;
+      margin: 0;
+      padding: 24px;
+    }
+    .emblem {
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .govt-heading {
+      text-align: center;
+      font-size: 13pt;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .govt-sub {
+      text-align: center;
+      font-size: 11pt;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+    .doc-credit {
+      text-align: center;
+      font-size: 9.5pt;
+      font-style: italic;
+      color: #444;
+      margin-bottom: 12px;
+    }
+    .divider {
+      border: none;
+      border-top: 2px solid #000;
+      border-bottom: 1px solid #000;
+      height: 4px;
+      margin-bottom: 16px;
+    }
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 10.5pt;
+    }
+    .meta-table td {
+      padding: 4px 6px;
+      vertical-align: top;
+      border-bottom: 1px dotted #ccc;
+    }
+    .meta-table td.lbl {
+      width: 40%;
+      font-weight: bold;
+      color: #222;
+    }
+    .meta-table td.val {
+      width: 60%;
+    }
+    .section-title {
+      font-size: 11pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 2px;
+    }
+    .content-box {
+      font-family: 'Times New Roman', Times, Georgia, serif;
+      font-size: 10.5pt;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      text-align: justify;
+      padding: 8px 0;
+    }
+    .statutory-note {
+      font-size: 9.5pt;
+      color: #333;
+      line-height: 1.4;
+      margin-top: 6px;
+      margin-bottom: 20px;
+    }
+    .sig-grid {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      page-break-inside: avoid;
+    }
+    .sig-col {
+      width: 45%;
+    }
+    .sig-line {
+      border-top: 1px solid #000;
+      margin-top: 45px;
+      padding-top: 4px;
+      font-size: 10pt;
+      font-weight: bold;
+    }
+    .footer-watermark {
+      margin-top: 30px;
+      border-top: 1px solid #bbb;
+      padding-top: 6px;
+      font-size: 8.5pt;
+      color: #666;
+      text-align: center;
+    }
+    @media print {
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="emblem">
+    <svg width="36" height="36" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="4"/>
+      <path d="M50 15 L50 85 M15 50 L85 50 M25 25 L75 75 M25 75 L75 25" stroke="#000" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="govt-heading">${docTitle}</div>
+  <div class="govt-sub">${actSubtitle}</div>
+  <div class="doc-credit">Verified Statutory Instrument — Generated via NyayaSetu Civic Accountability Engine</div>
+  <hr class="divider">
+
+  ${detailsHtml}
+
+  <div class="sig-grid">
+    <div class="sig-col">
+      <div style="font-size:10pt;">
+        <strong>Date:</strong> ${nowStr}<br>
+        <strong>Place:</strong> Pune, Maharashtra
+      </div>
+    </div>
+    <div class="sig-col" style="text-align: right;">
+      <div class="sig-line">
+        Signature of Citizen Applicant<br>
+        <span style="font-weight: normal; font-size: 9pt;">(${data.citizen_name || data.applicant_name || currentUser?.full_name || 'Priya Sharma'})</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-watermark">
+    This formal document conforms to Central &amp; State Right to Information Rules. Free of UI screenshots or browser decorations.
+  </div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 350);
+    };
+  <\/script>
+</body>
+</html>`;
+
+      printWin.document.open();
+      printWin.document.write(printHtml);
+      printWin.document.close();
+    }
+
+    function printSection6Application() {
+      if (!currentCaseData) return;
+      openFormalDocumentPrint("Section 6(1) RTI Application", currentCaseData);
+    }
+
+    function printFormalAcknowledgment() {
+      if (!currentCaseData) return;
+      openFormalDocumentPrint("RTI Application Acknowledgment", currentCaseData);
+    }
+
+    function printFormalFirstAppeal() {
+      if (!currentAppealData) return;
+      openFormalDocumentPrint("Section 19(1) First Appeal", currentAppealData);
+    }
+
+    // Load Citizen Cases
+    async function loadRecentCases() {
+      const tbody = document.getElementById("cases-table-body");
+      try {
+        const res = await fetch("/api/cases", {
+          headers: getAuthHeaders(),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const cases = data.cases || [];
+
+        if (cases.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-slate-400">No cases recorded yet for this account.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = "";
+        cases.forEach(c => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-slate-50 transition";
+          const timer = c.timer || {};
+          const isOverdue = c.timer_status?.is_overdue || false;
+
+          tr.innerHTML = `
+            <td class="py-2.5 px-3 font-mono font-bold text-indigo-950">${c.id}</td>
+            <td class="py-2.5 px-3 font-medium text-slate-800">${c.citizen_name}</td>
+            <td class="py-2.5 px-3 text-slate-600">${c.authority_id || 'Social Welfare Pune'}</td>
+            <td class="py-2.5 px-3">
+              <span class="px-2 py-0.5 rounded font-bold text-[10px] ${c.status === 'APPEAL_GENERATED' ? 'bg-amber-100 text-amber-800 border border-amber-300' : 'bg-emerald-100 text-emerald-800 border border-emerald-300'}">
+                ${c.status}
+              </span>
+            </td>
+            <td class="py-2.5 px-3 font-mono text-slate-700">${timer.registration_no || 'Pending'}</td>
+            <td class="py-2.5 px-3">
+              <span class="font-semibold ${isOverdue ? 'text-rose-600' : 'text-emerald-700'}">
+                ${isOverdue ? 'Overdue (Day 31+)' : '30-Day Window Active'}
+              </span>
+            </td>
+            <td class="py-2.5 px-3 text-right">
+              <button onclick="selectCase('${c.id}')" class="px-2.5 py-1 text-[11px] font-bold text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 rounded">
+                View
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="7" class="py-4 text-center text-rose-500">Failed to load cases.</td></tr>';
+      }
+    }
+
+    function selectCase(cid) {
+      fetch("/api/cases", { headers: getAuthHeaders() })
+        .then(r => r.json())
+        .then(data => {
+          const found = (data.cases || []).find(x => x.id === cid);
+          if (found) {
+            currentCaseData = {
+              case_id: found.id,
+              raw_complaint: found.raw_complaint,
+              draft_text: found.draft?.draft_text || "",
+              char_count: found.draft?.char_count || 0,
+              is_bpl: found.is_bpl,
+              authority: {
+                name: found.authority_id || "District Social Welfare Office Pune",
+                ministry: "Ministry of Social Justice & Empowerment",
+                pio_title: "Assistant Commissioner & PIO"
+              },
+              citizen_summary: "Case loaded from persistent database records."
+            };
+            populateScreen2(currentCaseData);
+            goToStep(2);
+          }
+        });
+    }
+
+    // Initialize on DOM load
+    window.addEventListener("DOMContentLoaded", () => {
+      updateAuthUI();
+      loadRecentCases();
+    });
+  </script>
+</body>
+</html>
