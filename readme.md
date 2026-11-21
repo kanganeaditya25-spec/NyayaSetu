@@ -2,7 +2,7 @@
 
 > **NxtWave IdeaForce Online Hackathon · Track 1: Civic Pulse, Digital Governance & Public Information**
 
-**Live Deployment:** `[Add your Render / Railway / HuggingFace Spaces URL here](https://your-deployed-app-url.com)`  
+**Live Deployment:** (https://nyayasetu-t3e1.onrender.com/)`  
 **Demo Video:** `[Add your 3-minute walkthrough video link here](https://your-demo-video-url.com)`
 
 ---
